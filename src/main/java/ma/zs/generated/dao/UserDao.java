@@ -39,7 +39,7 @@ public interface UserDao extends JpaRepository<User,Long> {
        @Query("select new ma.zs.generated.ws.rest.provided.vo.UserVo( c.delivery.lastName, count (c.id)) from Command c  where c.orderDate BETWEEN :start AND :end group by c.delivery order by count (c.delivery) DESC,sum(c.total) DESC")
        public List<UserVo> findTopfiveDelivery(@Param("start") Date start, @Param("end") Date end);
 
-       User findByFirstNameAndLastName(String firstName, String lastName);
+       User findByFirsttNameAndLastName(String firstName, String lastName);
 
 
        public List<User> findBySuperAdminIdAndAuthorityAuthority(Long adminId , String authority);

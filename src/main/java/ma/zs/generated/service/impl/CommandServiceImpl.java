@@ -404,7 +404,7 @@ public class CommandServiceImpl implements CommandService {
 		}
 
 		if (c.getValidator() != null) {
-			User user = validatorService.findByFirstNameAndLastName(c.getValidator().getFirsttName(),
+			User user = validatorService.findByFirsttNameAndLastName(c.getValidator().getFirsttName(),
 					c.getValidator().getLastName());
 			if (user == null)
 				c.setValidator(validatorService.save(c.getValidator()));

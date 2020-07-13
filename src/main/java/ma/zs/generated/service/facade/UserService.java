@@ -127,7 +127,7 @@ public interface UserService {
      *
      * @return the searChed User
      */
-    User findByFirstNameAndLastName(String firstName, String lastName);
+    User findByFirsttNameAndLastName(String firstName, String lastName);
 
     public List<User> findValidatorByCity(Long cityId);
 

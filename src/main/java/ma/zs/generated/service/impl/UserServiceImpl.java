@@ -338,8 +338,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByFirstNameAndLastName(String firstName, String lastName) {
-		return userDao.findByFirstNameAndLastName(firstName, lastName);
+	public User findByFirsttNameAndLastName(String firstName, String lastName) {
+		return userDao.findByFirsttNameAndLastName(firstName, lastName);
 	}
 
 	public List<User> findValidatorByCity(Long cityId) {
