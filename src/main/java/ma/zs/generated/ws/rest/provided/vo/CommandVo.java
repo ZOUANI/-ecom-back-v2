@@ -40,10 +40,99 @@ public class CommandVo {
      private String regulationDateMax ;
      private String regulationDateMin ;
 
+    private int day;
+    private int month;
+    private Long totalCommandInDay;
+    private BigDecimal totalInDay;
+
+    private BigDecimal totalSalesCurrentDay;
+    private BigDecimal totalConfirmedCurrentDay;
+    private BigDecimal totalClosedCurrentDay;
+    private BigDecimal totalCommandsSales;
+    private Long totalValidator;
+    private Long totalDelivery;
+    private Long confirmedCommands;
+    private BigDecimal totalConfirmedCommands;
+    private Long returnedCommands;
+    private Long closedCommands;
+    private BigDecimal totalClosedCommands;
+    private Long processedCommand;
+
+    private Long totalCommandInMonth;
+    private BigDecimal totalInMonth;
+
+    private BigDecimal TotalCommands;
+    private BigDecimal TotalCommandsConfirmed;
+    private BigDecimal TotalCommandsDelivred;
+    private BigDecimal TotalCommandsPaid;
+
  public CommandVo(){
        super();
      }
 
+    public CommandVo(int month, Long totalCommandInMonth, BigDecimal totalInMonth) {
+        this.month = month;
+        this.totalCommandInMonth = totalCommandInMonth;
+        this.totalInMonth = totalInMonth;
+    }
+
+    public BigDecimal getTotalCommandsPaid() {
+        return TotalCommandsPaid;
+    }
+
+    public void setTotalCommandsPaid(BigDecimal totalCommandsPaid) {
+        TotalCommandsPaid = totalCommandsPaid;
+    }
+
+    public CommandVo(BigDecimal totalSalesCurrentDay, BigDecimal totalConfirmedCurrentDay, BigDecimal totalClosedCurrentDay, BigDecimal totalCommandsSales, Long totalValidator, Long totalDelivery, Long confirmedCommands, BigDecimal totalConfirmedCommands, Long returnedCommands, Long closedCommands, BigDecimal totalClosedCommands, Long processedCommand) {
+        this.totalCommandsSales = totalCommandsSales;
+        this.totalValidator = totalValidator;
+        this.totalDelivery = totalDelivery;
+        this.confirmedCommands = confirmedCommands;
+        this.totalConfirmedCommands = totalConfirmedCommands;
+        this.returnedCommands = returnedCommands;
+        this.closedCommands = closedCommands;
+        this.totalClosedCommands = totalClosedCommands;
+        this.processedCommand = processedCommand;
+        this.totalSalesCurrentDay = totalSalesCurrentDay;
+        this.totalConfirmedCurrentDay = totalConfirmedCurrentDay;
+        this.totalClosedCurrentDay = totalClosedCurrentDay;
+
+    }
+
+    public CommandVo(BigDecimal totalConfirmedCurrentDay, BigDecimal totalClosedCurrentDay, Long totalDelivery, Long confirmedCommands, BigDecimal totalConfirmedCommands, Long returnedCommands, Long closedCommands, BigDecimal totalClosedCommands, Long processedCommand) {
+        this.totalConfirmedCurrentDay = totalConfirmedCurrentDay;
+        this.totalClosedCurrentDay = totalClosedCurrentDay;
+        this.totalDelivery = totalDelivery;
+        this.confirmedCommands = confirmedCommands;
+        this.totalConfirmedCommands = totalConfirmedCommands;
+        this.returnedCommands = returnedCommands;
+        this.closedCommands = closedCommands;
+        this.totalClosedCommands = totalClosedCommands;
+        this.processedCommand = processedCommand;
+    }
+
+    public CommandVo(BigDecimal totalCommands, BigDecimal totalCommandsConfirmed, BigDecimal totalCommandsDelivred, BigDecimal totalCommandsPaid) {
+        TotalCommands = totalCommands;
+        TotalCommandsConfirmed = totalCommandsConfirmed;
+        TotalCommandsDelivred = totalCommandsDelivred;
+        TotalCommandsPaid = totalCommandsPaid;
+    }
+
+    public CommandVo(int day, int month, Long totalCommandInDay, BigDecimal totalInDay) {
+
+        this.day = day;
+        this.month = month;
+        this.totalCommandInDay = totalCommandInDay;
+        this.totalInDay = totalInDay;
+    }
+
+    public CommandVo(BigDecimal totalClosedCurrentDay, Long closedCommands, BigDecimal totalClosedCommands, Long processedCommand) {
+        this.totalClosedCurrentDay = totalClosedCurrentDay;
+        this.closedCommands = closedCommands;
+        this.totalClosedCommands = totalClosedCommands;
+        this.processedCommand = processedCommand;
+    }
 
      public String getRemarque(){
           return this.remarque;
@@ -52,8 +141,175 @@ public class CommandVo {
           this.remarque = remarque;
      }
 
+    public int getDay() {
+        return day;
+    }
 
-     public String getTotal(){
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public Long getTotalCommandInDay() {
+        return totalCommandInDay;
+    }
+
+    public void setTotalCommandInDay(Long totalCommandInDay) {
+        this.totalCommandInDay = totalCommandInDay;
+    }
+
+    public BigDecimal getTotalInDay() {
+        return totalInDay;
+    }
+
+    public void setTotalInDay(BigDecimal totalInDay) {
+        this.totalInDay = totalInDay;
+    }
+
+    public BigDecimal getTotalSalesCurrentDay() {
+        return totalSalesCurrentDay;
+    }
+
+    public void setTotalSalesCurrentDay(BigDecimal totalSalesCurrentDay) {
+        this.totalSalesCurrentDay = totalSalesCurrentDay;
+    }
+
+    public BigDecimal getTotalConfirmedCurrentDay() {
+        return totalConfirmedCurrentDay;
+    }
+
+    public void setTotalConfirmedCurrentDay(BigDecimal totalConfirmedCurrentDay) {
+        this.totalConfirmedCurrentDay = totalConfirmedCurrentDay;
+    }
+
+    public BigDecimal getTotalClosedCurrentDay() {
+        return totalClosedCurrentDay;
+    }
+
+    public void setTotalClosedCurrentDay(BigDecimal totalClosedCurrentDay) {
+        this.totalClosedCurrentDay = totalClosedCurrentDay;
+    }
+
+    public BigDecimal getTotalCommandsSales() {
+        return totalCommandsSales;
+    }
+
+    public void setTotalCommandsSales(BigDecimal totalCommandsSales) {
+        this.totalCommandsSales = totalCommandsSales;
+    }
+
+    public Long getTotalValidator() {
+        return totalValidator;
+    }
+
+    public void setTotalValidator(Long totalValidator) {
+        this.totalValidator = totalValidator;
+    }
+
+    public Long getTotalDelivery() {
+        return totalDelivery;
+    }
+
+    public void setTotalDelivery(Long totalDelivery) {
+        this.totalDelivery = totalDelivery;
+    }
+
+    public Long getConfirmedCommands() {
+        return confirmedCommands;
+    }
+
+    public void setConfirmedCommands(Long confirmedCommands) {
+        this.confirmedCommands = confirmedCommands;
+    }
+
+    public BigDecimal getTotalConfirmedCommands() {
+        return totalConfirmedCommands;
+    }
+
+    public void setTotalConfirmedCommands(BigDecimal totalConfirmedCommands) {
+        this.totalConfirmedCommands = totalConfirmedCommands;
+    }
+
+    public Long getReturnedCommands() {
+        return returnedCommands;
+    }
+
+    public void setReturnedCommands(Long returnedCommands) {
+        this.returnedCommands = returnedCommands;
+    }
+
+    public Long getClosedCommands() {
+        return closedCommands;
+    }
+
+    public void setClosedCommands(Long closedCommands) {
+        this.closedCommands = closedCommands;
+    }
+
+    public BigDecimal getTotalClosedCommands() {
+        return totalClosedCommands;
+    }
+
+    public void setTotalClosedCommands(BigDecimal totalClosedCommands) {
+        this.totalClosedCommands = totalClosedCommands;
+    }
+
+    public Long getProcessedCommand() {
+        return processedCommand;
+    }
+
+    public void setProcessedCommand(Long processedCommand) {
+        this.processedCommand = processedCommand;
+    }
+
+    public Long getTotalCommandInMonth() {
+        return totalCommandInMonth;
+    }
+
+    public void setTotalCommandInMonth(Long totalCommandInMonth) {
+        this.totalCommandInMonth = totalCommandInMonth;
+    }
+
+    public BigDecimal getTotalInMonth() {
+        return totalInMonth;
+    }
+
+    public void setTotalInMonth(BigDecimal totalInMonth) {
+        this.totalInMonth = totalInMonth;
+    }
+
+    public BigDecimal getTotalCommands() {
+        return TotalCommands;
+    }
+
+    public void setTotalCommands(BigDecimal totalCommands) {
+        TotalCommands = totalCommands;
+    }
+
+    public BigDecimal getTotalCommandsConfirmed() {
+        return TotalCommandsConfirmed;
+    }
+
+    public void setTotalCommandsConfirmed(BigDecimal totalCommandsConfirmed) {
+        TotalCommandsConfirmed = totalCommandsConfirmed;
+    }
+
+    public BigDecimal getTotalCommandsDelivred() {
+        return TotalCommandsDelivred;
+    }
+
+    public void setTotalCommandsDelivred(BigDecimal totalCommandsDelivred) {
+        TotalCommandsDelivred = totalCommandsDelivred;
+    }
+
+    public String getTotal(){
           return this.total;
      }
       public void setTotal(String total){

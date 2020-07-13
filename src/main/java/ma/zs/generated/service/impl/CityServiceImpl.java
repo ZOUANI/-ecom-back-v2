@@ -1,7 +1,10 @@
 package ma.zs.generated.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +15,6 @@ import ma.zs.generated.dao.CityDao;
 import ma.zs.generated.service.facade.CityService;
 
 import ma.zs.generated.ws.rest.provided.vo.CityVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class CityServiceImpl implements CityService {
 
@@ -99,15 +101,23 @@ public class CityServiceImpl implements CityService {
 	   return 1;
 	}
 
-
 	public List<City> findByCriteria(CityVo cityVo){
-      String query = "SELECT o FROM City o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "name","LIKE",cityVo.getName());
+		String query = "SELECT o FROM City o where 1=1 ";
+		query += SearchUtil.addConstraint( "o", "name","LIKE",cityVo.getName());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",cityVo.getId());
-			 query += SearchUtil.addConstraint( "o", "postCode","LIKE",cityVo.getPostCode());
+		query += SearchUtil.addConstraint( "o", "postCode","LIKE",cityVo.getPostCode());
 
-	 return entityManager.createQuery(query).getResultList();
+		query += SearchUtil.addConstraint( "o", "id","=",cityVo.getId());
+		return entityManager.createQuery(query).getResultList();
+	}
+
+	@Override
+	public List<CityVo> findTopfiveCity(Date start, Date end) {
+		List<CityVo> cityVos = cityDao.findTopfiveCity(start, end);
+		if (cityVos.size() < 5) {
+			return cityVos.subList(0, cityVos.size());
+		}
+		return cityVos.subList(0, 5);
 	}
 	
  

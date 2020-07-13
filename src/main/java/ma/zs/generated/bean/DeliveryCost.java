@@ -1,6 +1,7 @@
 package ma.zs.generated.bean;
 
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -15,14 +16,15 @@ public class DeliveryCost {
      @GeneratedValue(strategy = GenerationType.AUTO)
      private Long id;
 
+     private BigDecimal shippingCost ;
 
      @ManyToOne
-	private City city ;
+     private City city ;
      @ManyToOne
-	private User delivery ;
+     private User delivery ;
 
      public DeliveryCost(){
-       super();
+          super();
      }
 
      public Long getId(){

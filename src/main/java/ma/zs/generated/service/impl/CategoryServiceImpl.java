@@ -2,6 +2,9 @@ package ma.zs.generated.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
+import ma.zs.generated.ws.rest.provided.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +14,6 @@ import ma.zs.generated.bean.Category;
 import ma.zs.generated.dao.CategoryDao;
 import ma.zs.generated.service.facade.CategoryService;
 
-import ma.zs.generated.ws.rest.provided.vo.CategoryVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -99,7 +100,7 @@ public class CategoryServiceImpl implements CategoryService {
 	   return 1;
 	}
 
-
+	@Override
 	public List<Category> findByCriteria(CategoryVo categoryVo){
       String query = "SELECT o FROM Category o where 1=1 ";
 			 query += SearchUtil.addConstraint( "o", "label","LIKE",categoryVo.getLabel());

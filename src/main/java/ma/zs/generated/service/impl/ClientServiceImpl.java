@@ -1,7 +1,11 @@
 package ma.zs.generated.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.ListUtil;
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +20,6 @@ import ma.zs.generated.service.facade.CommandService;
 import ma.zs.generated.service.facade.CityService;   
 
 import ma.zs.generated.ws.rest.provided.vo.ClientVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class ClientServiceImpl implements ClientService {
 
@@ -80,11 +83,11 @@ public class ClientServiceImpl implements ClientService {
 				  client.setCity(city);
 			  }
 
-	    Client savedClient = clientDao.save(client);
-               if(ListUtil.isNotEmpty(client.getCommands())){
-		  savedClient.setCommands(commandService.save(prepareCommands(savedClient,client.getCommands())));
-		 }
-	   return savedClient;
+//	    Client savedClient = clientDao.save(client);
+//               if(ListUtil.isNotEmpty(client.getCommands())){
+//		  savedClient.setCommands(commandService.save(prepareCommands(savedClient,client.getCommands())));
+//		 }
+	   return null;
 	}
 
     @Override
@@ -129,26 +132,55 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 
+
 	public List<Client> findByCriteria(ClientVo clientVo){
-      String query = "SELECT o FROM Client o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "phoneNumber","LIKE",clientVo.getPhoneNumber());
+		String query = "SELECT o FROM Client o where 1=1 ";
+		query += SearchUtil.addConstraint( "o", "phoneNumber","LIKE",clientVo.getPhoneNumber());
 
-			 query += SearchUtil.addConstraint( "o", "address","LIKE",clientVo.getAddress());
+		query += SearchUtil.addConstraint( "o", "lastName","LIKE",clientVo.getLastName());
 
-			 query += SearchUtil.addConstraint( "o", "lastName","LIKE",clientVo.getLastName());
+		query += SearchUtil.addConstraint( "o", "email","LIKE",clientVo.getEmail());
 
-			 query += SearchUtil.addConstraint( "o", "email","LIKE",clientVo.getEmail());
+		query += SearchUtil.addConstraint( "o", "firstName","LIKE",clientVo.getFirstName());
 
-			 query += SearchUtil.addConstraint( "o", "firstName","LIKE",clientVo.getFirstName());
+		query += SearchUtil.addConstraint( "o", "id","=",clientVo.getId());
+		if(clientVo.getCityVo()!=null){
+			query += SearchUtil.addConstraint( "o", "city.id","=",clientVo.getCityVo().getId());
+			query += SearchUtil.addConstraint( "o", "city.name","LIKE",clientVo.getCityVo().getName());
+		}
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",clientVo.getId());
-   if(clientVo.getCityVo()!=null){
-     query += SearchUtil.addConstraint( "o", "city.id","=",clientVo.getCityVo().getId());
-     query += SearchUtil.addConstraint( "o", "city.name","LIKE",clientVo.getCityVo().getName());
-   }
-   
-	 return entityManager.createQuery(query).getResultList();
+		return entityManager.createQuery(query).getResultList();
 	}
-	
+
+	@Override
+	public List<ClientVo> findTopfiveClient(Date start, Date end) {
+		List<ClientVo> clientVos = clientDao.findTopfiveClient(start, end);
+		if (clientVos.size() < 5) {
+			return clientVos.subList(0, clientVos.size());
+		}
+		return clientVos.subList(0, 5);
+	}
+
+	@Override
+	public Client findByFirstNameAndLastNameAndPhoneNumber(String firstName, String lastName, String phoneNumber) {
+		return clientDao.findByFirstNameAndLastNameAndPhoneNumber(firstName, lastName, phoneNumber);
+	}
+
+	public Client findByFirstNameAndLastName(String firstName, String lastName) {
+		return clientDao.findByFirstNameAndLastName(firstName, lastName);
+	}
+
+	@Override
+	public Client savePlainClient(Client client) {
+
+		if (client.getCity() != null) {
+			City city = cityService.findByName(client.getCity().getName());
+			if (city == null)
+				client.setCity(cityService.save(client.getCity()));
+			else
+				client.setCity(city);
+		}
+		return clientDao.save(client);
+	}
  
 }

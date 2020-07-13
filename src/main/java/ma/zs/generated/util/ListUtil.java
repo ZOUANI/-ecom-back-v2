@@ -1,4 +1,4 @@
-package ma.zs.generated.service.util;
+package ma.zs.generated.util;
  
  
  

@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,6 @@ import ma.zs.generated.service.facade.ProductService;
 import ma.zs.generated.service.facade.CityService;   
 
 import ma.zs.generated.ws.rest.provided.vo.OperationStockVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class OperationStockServiceImpl implements OperationStockService {
 
@@ -179,13 +180,13 @@ public class OperationStockServiceImpl implements OperationStockService {
 				  operationStock.setCity(city);
 			  }
 	    
-	          if(operationStock.getCommand()!=null){
-				    Command command = commandService.findByReference(operationStock.getCommand().getReference());
-				  if(command == null)
-				  operationStock.setCommand(commandService.save(operationStock.getCommand()));
-				  else
-				  operationStock.setCommand(command);
-			  }
+//	          if(operationStock.getCommand()!=null){
+//				    Command command = commandService.findByReference(operationStock.getCommand().getReference());
+//				  if(command == null)
+//				  operationStock.setCommand(commandService.save(operationStock.getCommand()));
+//				  else
+//				  operationStock.setCommand(command);
+//			  }
 	    
 	          if(operationStock.getAdmin()!=null){
 				    User admin = userService.findByCode(operationStock.getAdmin().getCode());

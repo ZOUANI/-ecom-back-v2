@@ -1,5 +1,6 @@
 package  ma.zs.generated.ws.rest.provided.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserVo {
@@ -34,12 +35,111 @@ public class UserVo {
      private String createdMax ;
      private String createdMin ;
 
+    private String deliveryName;
+    private BigDecimal totalAmountCommand;
+    private BigDecimal totalAmountCommandClosed;
+    private int commandsReturned;
+    private int commandsClosed;
+    private int commandProcessed;
+    private BigDecimal percentageClosed;
+    private BigDecimal percentageReturned;
+
+    private Long totalCommandDelivered;
+
+
+    public UserVo(String deliveryName, BigDecimal totalAmountCommand, BigDecimal totalAmountCommandClosed, int commandsReturned, int commandsClosed, int commandProcessed, BigDecimal percentageClosed, BigDecimal percentageReturned) {
+        this.deliveryName = deliveryName;
+        this.totalAmountCommand = totalAmountCommand;
+        this.totalAmountCommandClosed = totalAmountCommandClosed;
+        this.commandsReturned = commandsReturned;
+        this.commandsClosed = commandsClosed;
+        this.commandProcessed = commandProcessed;
+        this.percentageClosed = percentageClosed;
+        this.percentageReturned = percentageReturned;
+    }
+
+    public UserVo(String deliveryName, Long totalCommandDelivered) {
+        this.deliveryName = deliveryName;
+        this.totalCommandDelivered = totalCommandDelivered;
+    }
+
  public UserVo(){
        super();
      }
 
+    public String getDeliveryName() {
+        return deliveryName;
+    }
 
-     public String getEnabled(){
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
+    }
+
+    public BigDecimal getTotalAmountCommand() {
+        return totalAmountCommand;
+    }
+
+    public void setTotalAmountCommand(BigDecimal totalAmountCommand) {
+        this.totalAmountCommand = totalAmountCommand;
+    }
+
+    public BigDecimal getTotalAmountCommandClosed() {
+        return totalAmountCommandClosed;
+    }
+
+    public void setTotalAmountCommandClosed(BigDecimal totalAmountCommandClosed) {
+        this.totalAmountCommandClosed = totalAmountCommandClosed;
+    }
+
+    public int getCommandsReturned() {
+        return commandsReturned;
+    }
+
+    public void setCommandsReturned(int commandsReturned) {
+        this.commandsReturned = commandsReturned;
+    }
+
+    public int getCommandsClosed() {
+        return commandsClosed;
+    }
+
+    public void setCommandsClosed(int commandsClosed) {
+        this.commandsClosed = commandsClosed;
+    }
+
+    public int getCommandProcessed() {
+        return commandProcessed;
+    }
+
+    public void setCommandProcessed(int commandProcessed) {
+        this.commandProcessed = commandProcessed;
+    }
+
+    public BigDecimal getPercentageClosed() {
+        return percentageClosed;
+    }
+
+    public void setPercentageClosed(BigDecimal percentageClosed) {
+        this.percentageClosed = percentageClosed;
+    }
+
+    public BigDecimal getPercentageReturned() {
+        return percentageReturned;
+    }
+
+    public void setPercentageReturned(BigDecimal percentageReturned) {
+        this.percentageReturned = percentageReturned;
+    }
+
+    public Long getTotalCommandDelivered() {
+        return totalCommandDelivered;
+    }
+
+    public void setTotalCommandDelivered(Long totalCommandDelivered) {
+        this.totalCommandDelivered = totalCommandDelivered;
+    }
+
+    public String getEnabled(){
           return this.enabled;
      }
       public void setEnabled(String enabled){

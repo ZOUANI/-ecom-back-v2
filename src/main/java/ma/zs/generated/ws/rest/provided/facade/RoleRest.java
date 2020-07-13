@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.Role; 
+import ma.zs.generated.bean.Role;
 import ma.zs.generated.service.facade.RoleService;
 import ma.zs.generated.ws.rest.provided.converter.RoleConverter;
 import ma.zs.generated.ws.rest.provided.vo.RoleVo;
@@ -23,21 +23,21 @@ import ma.zs.generated.ws.rest.provided.vo.RoleVo;
 @RequestMapping("generated/role")
 public class RoleRest {
 
-	@Autowired 
+	@Autowired
 	private RoleService roleService;
-	
-	@Autowired 
+
+	@Autowired
 	private RoleConverter roleConverter ;
 
-    @ApiOperation("Saves the specified role")
+	@ApiOperation("Saves the specified role")
 	@PostMapping("/")
 	public RoleVo save(@RequestBody RoleVo roleVo){
 		Role role= roleConverter.toItem(roleVo);
-	  role=	roleService.save(role);
+		role=	roleService.save(role);
 		return roleConverter.toVo(role);
 	}
 
-    @ApiOperation("Delete the specified role")
+	@ApiOperation("Delete the specified role")
 	@DeleteMapping("/")
 	public int delete(@RequestBody RoleVo roleVo){
 		Role role = roleConverter.toItem(roleVo);
@@ -48,7 +48,7 @@ public class RoleRest {
 	@PutMapping("/")
 	public RoleVo update(@RequestBody RoleVo roleVo){
 		Role role= roleConverter.toItem(roleVo);
-	  role=	roleService.update(role);
+		role=	roleService.update(role);
 		return roleConverter.toVo(role);
 	}
 
@@ -57,7 +57,7 @@ public class RoleRest {
 	public List<RoleVo> findAll(){
 		return roleConverter.toVo(roleService.findAll());
 	}
-    
+
 	@ApiOperation("Finds a role by id")
 	@GetMapping("/id/{id}")
 	public RoleVo findById(@PathVariable Long id){
@@ -66,32 +66,32 @@ public class RoleRest {
 	@ApiOperation("Deletes a role by id")
 	@DeleteMapping("/id/{id}")
 	public void deleteById(@PathVariable Long id){
-		 roleService.deleteById(id);
+		roleService.deleteById(id);
 	}
 
 	@ApiOperation("Finds a  role by authority")
-    @GetMapping("/authority/{authority}")
+	@GetMapping("/authority/{authority}")
 	public RoleVo findByAuthority(@PathVariable String authority){
 		return  roleConverter.toVo(roleService.findByAuthority(authority));
 	}
 	@ApiOperation("Deletes a  role by authority")
-    @DeleteMapping("/authority/{authority}")
+	@DeleteMapping("/authority/{authority}")
 	public int deleteByAuthority(@PathVariable String authority){
 		return  roleService.deleteByAuthority(authority);
 	}
-	
 
 
-   
-    @ApiOperation("Search role by a specific criterion")
-    @PostMapping("/search")
+
+
+	@ApiOperation("Search role by a specific criterion")
+	@PostMapping("/search")
 	public List<RoleVo> findByCriteria(@RequestBody RoleVo roleVo){
-       return roleConverter.toVo(roleService.findByCriteria(roleVo));
-	}	
+		return roleConverter.toVo(roleService.findByCriteria(roleVo));
+	}
 	public RoleConverter getRoleConverter(){
 		return roleConverter;
 	}
- 
+
 	public void setRoleConverter(RoleConverter roleConverter){
 		this.roleConverter=roleConverter;
 	}
@@ -100,8 +100,8 @@ public class RoleRest {
 		return roleService;
 	}
 	public void setRoleService( RoleService roleService){
-	 	this.roleService=roleService;
+		this.roleService=roleService;
 	}
-	
+
 
 }

@@ -1,5 +1,6 @@
 package ma.zs.generated.service.facade;
 
+import java.util.Date;
 import java.util.List;
 import ma.zs.generated.bean.City;
 import ma.zs.generated.ws.rest.provided.vo.CityVo;
@@ -80,5 +81,14 @@ public interface CityService {
      * search for City in by some criteria
      * @return the searhed list City 
      */
+
 	List<City> findByCriteria( CityVo cityVo);
+
+	/**
+	 * search for top 5 City
+	 *
+	 * @return the searhed list City
+	 */
+	public List<CityVo> findTopfiveCity(Date start, Date end);
 }
+

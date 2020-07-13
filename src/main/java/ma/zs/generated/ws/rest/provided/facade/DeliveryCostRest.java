@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.DeliveryCost; 
+import ma.zs.generated.bean.DeliveryCost;
 import ma.zs.generated.service.facade.DeliveryCostService;
 import ma.zs.generated.ws.rest.provided.converter.DeliveryCostConverter;
 import ma.zs.generated.ws.rest.provided.vo.DeliveryCostVo;
@@ -23,21 +23,21 @@ import ma.zs.generated.ws.rest.provided.vo.DeliveryCostVo;
 @RequestMapping("generated/deliveryCost")
 public class DeliveryCostRest {
 
-	@Autowired 
+	@Autowired
 	private DeliveryCostService deliveryCostService;
-	
-	@Autowired 
+
+	@Autowired
 	private DeliveryCostConverter deliveryCostConverter ;
 
-    @ApiOperation("Saves the specified deliveryCost")
+	@ApiOperation("Saves the specified deliveryCost")
 	@PostMapping("/")
 	public DeliveryCostVo save(@RequestBody DeliveryCostVo deliveryCostVo){
 		DeliveryCost deliveryCost= deliveryCostConverter.toItem(deliveryCostVo);
-	  deliveryCost=	deliveryCostService.save(deliveryCost);
+		deliveryCost=	deliveryCostService.save(deliveryCost);
 		return deliveryCostConverter.toVo(deliveryCost);
 	}
 
-    @ApiOperation("Delete the specified deliveryCost")
+	@ApiOperation("Delete the specified deliveryCost")
 	@DeleteMapping("/")
 	public int delete(@RequestBody DeliveryCostVo deliveryCostVo){
 		DeliveryCost deliveryCost = deliveryCostConverter.toItem(deliveryCostVo);
@@ -48,7 +48,7 @@ public class DeliveryCostRest {
 	@PutMapping("/")
 	public DeliveryCostVo update(@RequestBody DeliveryCostVo deliveryCostVo){
 		DeliveryCost deliveryCost= deliveryCostConverter.toItem(deliveryCostVo);
-	  deliveryCost=	deliveryCostService.update(deliveryCost);
+		deliveryCost=	deliveryCostService.update(deliveryCost);
 		return deliveryCostConverter.toVo(deliveryCost);
 	}
 
@@ -57,7 +57,7 @@ public class DeliveryCostRest {
 	public List<DeliveryCostVo> findAll(){
 		return deliveryCostConverter.toVo(deliveryCostService.findAll());
 	}
-    
+
 	@ApiOperation("Finds a deliveryCost by id")
 	@GetMapping("/id/{id}")
 	public DeliveryCostVo findById(@PathVariable Long id){
@@ -66,23 +66,23 @@ public class DeliveryCostRest {
 	@ApiOperation("Deletes a deliveryCost by id")
 	@DeleteMapping("/id/{id}")
 	public void deleteById(@PathVariable Long id){
-		 deliveryCostService.deleteById(id);
+		deliveryCostService.deleteById(id);
 	}
 
 
 
-    @ApiOperation("Finds a deliveryCost by name of city")
+	@ApiOperation("Finds a deliveryCost by name of city")
 	@GetMapping("/city/name/{name}")
 	public List<DeliveryCostVo> findByCityName(@PathVariable String name){
 		return deliveryCostConverter.toVo(deliveryCostService.findByCityName(name));
 	}
-	
+
 	@ApiOperation("Deletes a deliveryCost by name of city")
 	@DeleteMapping("/city/name/{name}")
 	public int deleteByCityName(@PathVariable String name){
 		return deliveryCostService.deleteByCityName(name);
 	}
-	
+
 	@ApiOperation("Finds deliveryCost by id of city")
 	@GetMapping("/city/id/{id}")
 	public List<DeliveryCostVo> findByCityId(@PathVariable Long id){
@@ -93,19 +93,19 @@ public class DeliveryCostRest {
 	public int deleteByCityId(@PathVariable Long id){
 		return deliveryCostService.deleteByCityId(id);
 	}
-     	
-    @ApiOperation("Finds a deliveryCost by code of delivery")
+
+	@ApiOperation("Finds a deliveryCost by code of delivery")
 	@GetMapping("/delivery/code/{code}")
 	public List<DeliveryCostVo> findByDeliveryCode(@PathVariable String code){
 		return deliveryCostConverter.toVo(deliveryCostService.findByDeliveryCode(code));
 	}
-	
+
 	@ApiOperation("Deletes a deliveryCost by code of delivery")
 	@DeleteMapping("/delivery/code/{code}")
 	public int deleteByDeliveryCode(@PathVariable String code){
 		return deliveryCostService.deleteByDeliveryCode(code);
 	}
-	
+
 	@ApiOperation("Finds deliveryCost by id of delivery")
 	@GetMapping("/delivery/id/{id}")
 	public List<DeliveryCostVo> findByDeliveryId(@PathVariable Long id){
@@ -116,17 +116,24 @@ public class DeliveryCostRest {
 	public int deleteByDeliveryId(@PathVariable Long id){
 		return deliveryCostService.deleteByDeliveryId(id);
 	}
-     	
-   
-    @ApiOperation("Search deliveryCost by a specific criterion")
-    @PostMapping("/search")
+
+
+	@ApiOperation("Search deliveryCost by a specific criterion")
+	@PostMapping("/search")
 	public List<DeliveryCostVo> findByCriteria(@RequestBody DeliveryCostVo deliveryCostVo){
-       return deliveryCostConverter.toVo(deliveryCostService.findByCriteria(deliveryCostVo));
-	}	
+		return deliveryCostConverter.toVo(deliveryCostService.findByCriteria(deliveryCostVo));
+	}
+	@ApiOperation("delivery by city and admin")
+	@GetMapping("/cityId/{cityId}/adminId/{adminId}")
+	public List<DeliveryCostVo> findByCityIdAndDeliverySuperAdminId(@PathVariable Long cityId, @PathVariable Long adminId) {
+		return deliveryCostConverter.toVo(deliveryCostService.findByCityIdAndDeliverySuperAdminId(cityId,adminId));
+
+	}
+
 	public DeliveryCostConverter getDeliveryCostConverter(){
 		return deliveryCostConverter;
 	}
- 
+
 	public void setDeliveryCostConverter(DeliveryCostConverter deliveryCostConverter){
 		this.deliveryCostConverter=deliveryCostConverter;
 	}
@@ -135,8 +142,8 @@ public class DeliveryCostRest {
 		return deliveryCostService;
 	}
 	public void setDeliveryCostService( DeliveryCostService deliveryCostService){
-	 	this.deliveryCostService=deliveryCostService;
+		this.deliveryCostService=deliveryCostService;
 	}
-	
+
 
 }

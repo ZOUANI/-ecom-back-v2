@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +18,6 @@ import ma.zs.generated.service.facade.CategoryService;
 import ma.zs.generated.service.facade.ProductService;   
 
 import ma.zs.generated.ws.rest.provided.vo.CategoryProductVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class CategoryProductServiceImpl implements CategoryProductService {
 

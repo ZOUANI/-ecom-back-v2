@@ -78,4 +78,7 @@ public interface DeliveryCostService {
      * @return the searhed list DeliveryCost 
      */
 	List<DeliveryCost> findByCriteria( DeliveryCostVo deliveryCostVo);
+
+    List<DeliveryCost> findByCityIdAndDeliverySuperAdminId(Long cityId,Long adminId);
+
 }

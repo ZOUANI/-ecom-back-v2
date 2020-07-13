@@ -1,11 +1,7 @@
 package ma.zs.generated.bean;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import ma.zs.generated.bean.Command;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Comment {
@@ -14,46 +10,59 @@ public class Comment {
      @GeneratedValue(strategy = GenerationType.AUTO)
      private Long id;
 
-     private String message ;
+     private String message;
+
 
      @ManyToOne
-	private Command command ;
+     private User user;
+     private Date dateComment;
 
-     public Comment(){
-       super();
+     @ManyToOne
+     private Command command;
+
+     public Comment() {
+          super();
      }
 
-     public Long getId(){
+     public Long getId() {
           return this.id;
      }
-     public void setId(Long id){
+
+     public void setId(Long id) {
           this.id = id;
      }
-     public User getUser(){
+
+     public User getUser() {
           return this.user;
      }
-     public void setUser(User user){
+
+     public void setUser(User user) {
           this.user = user;
      }
-     public Command getCommand(){
+
+     public Command getCommand() {
           return this.command;
      }
-     public void setCommand(Command command){
+
+     public void setCommand(Command command) {
           this.command = command;
      }
-     public Date getDateComment(){
+
+     public Date getDateComment() {
           return this.dateComment;
      }
-     public void setDateComment(Date dateComment){
+
+     public void setDateComment(Date dateComment) {
           this.dateComment = dateComment;
      }
-     public String getMessage(){
+
+     public String getMessage() {
           return this.message;
      }
-     public void setMessage(String message){
+
+     public void setMessage(String message) {
           this.message = message;
      }
-
 
 
 }

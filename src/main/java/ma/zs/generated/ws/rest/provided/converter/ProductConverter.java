@@ -1,8 +1,10 @@
 package  ma.zs.generated.ws.rest.provided.converter;
 
+import ma.zs.generated.util.ListUtil;
+import ma.zs.generated.util.NumberUtil;
+import ma.zs.generated.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ma.zs.generated.service.util.*;
 
   
 import ma.zs.generated.bean.Product; 

@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +14,6 @@ import ma.zs.generated.dao.OperationStockTypeDao;
 import ma.zs.generated.service.facade.OperationStockTypeService;
 
 import ma.zs.generated.ws.rest.provided.vo.OperationStockTypeVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class OperationStockTypeServiceImpl implements OperationStockTypeService {
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.DeliveryType; 
+import ma.zs.generated.bean.DeliveryType;
 import ma.zs.generated.service.facade.DeliveryTypeService;
 import ma.zs.generated.ws.rest.provided.converter.DeliveryTypeConverter;
 import ma.zs.generated.ws.rest.provided.vo.DeliveryTypeVo;
@@ -23,21 +23,21 @@ import ma.zs.generated.ws.rest.provided.vo.DeliveryTypeVo;
 @RequestMapping("generated/deliveryType")
 public class DeliveryTypeRest {
 
-	@Autowired 
+	@Autowired
 	private DeliveryTypeService deliveryTypeService;
-	
-	@Autowired 
+
+	@Autowired
 	private DeliveryTypeConverter deliveryTypeConverter ;
 
-    @ApiOperation("Saves the specified deliveryType")
+	@ApiOperation("Saves the specified deliveryType")
 	@PostMapping("/")
 	public DeliveryTypeVo save(@RequestBody DeliveryTypeVo deliveryTypeVo){
 		DeliveryType deliveryType= deliveryTypeConverter.toItem(deliveryTypeVo);
-	  deliveryType=	deliveryTypeService.save(deliveryType);
+		deliveryType=	deliveryTypeService.save(deliveryType);
 		return deliveryTypeConverter.toVo(deliveryType);
 	}
 
-    @ApiOperation("Delete the specified deliveryType")
+	@ApiOperation("Delete the specified deliveryType")
 	@DeleteMapping("/")
 	public int delete(@RequestBody DeliveryTypeVo deliveryTypeVo){
 		DeliveryType deliveryType = deliveryTypeConverter.toItem(deliveryTypeVo);
@@ -48,7 +48,7 @@ public class DeliveryTypeRest {
 	@PutMapping("/")
 	public DeliveryTypeVo update(@RequestBody DeliveryTypeVo deliveryTypeVo){
 		DeliveryType deliveryType= deliveryTypeConverter.toItem(deliveryTypeVo);
-	  deliveryType=	deliveryTypeService.update(deliveryType);
+		deliveryType=	deliveryTypeService.update(deliveryType);
 		return deliveryTypeConverter.toVo(deliveryType);
 	}
 
@@ -57,7 +57,7 @@ public class DeliveryTypeRest {
 	public List<DeliveryTypeVo> findAll(){
 		return deliveryTypeConverter.toVo(deliveryTypeService.findAll());
 	}
-    
+
 	@ApiOperation("Finds a deliveryType by id")
 	@GetMapping("/id/{id}")
 	public DeliveryTypeVo findById(@PathVariable Long id){
@@ -66,32 +66,32 @@ public class DeliveryTypeRest {
 	@ApiOperation("Deletes a deliveryType by id")
 	@DeleteMapping("/id/{id}")
 	public void deleteById(@PathVariable Long id){
-		 deliveryTypeService.deleteById(id);
+		deliveryTypeService.deleteById(id);
 	}
 
 	@ApiOperation("Finds a  deliveryType by label")
-    @GetMapping("/label/{label}")
+	@GetMapping("/label/{label}")
 	public DeliveryTypeVo findByLabel(@PathVariable String label){
 		return  deliveryTypeConverter.toVo(deliveryTypeService.findByLabel(label));
 	}
 	@ApiOperation("Deletes a  deliveryType by label")
-    @DeleteMapping("/label/{label}")
+	@DeleteMapping("/label/{label}")
 	public int deleteByLabel(@PathVariable String label){
 		return  deliveryTypeService.deleteByLabel(label);
 	}
-	
 
 
-   
-    @ApiOperation("Search deliveryType by a specific criterion")
-    @PostMapping("/search")
+
+
+	@ApiOperation("Search deliveryType by a specific criterion")
+	@PostMapping("/search")
 	public List<DeliveryTypeVo> findByCriteria(@RequestBody DeliveryTypeVo deliveryTypeVo){
-       return deliveryTypeConverter.toVo(deliveryTypeService.findByCriteria(deliveryTypeVo));
-	}	
+		return deliveryTypeConverter.toVo(deliveryTypeService.findByCriteria(deliveryTypeVo));
+	}
 	public DeliveryTypeConverter getDeliveryTypeConverter(){
 		return deliveryTypeConverter;
 	}
- 
+
 	public void setDeliveryTypeConverter(DeliveryTypeConverter deliveryTypeConverter){
 		this.deliveryTypeConverter=deliveryTypeConverter;
 	}
@@ -100,8 +100,8 @@ public class DeliveryTypeRest {
 		return deliveryTypeService;
 	}
 	public void setDeliveryTypeService( DeliveryTypeService deliveryTypeService){
-	 	this.deliveryTypeService=deliveryTypeService;
+		this.deliveryTypeService=deliveryTypeService;
 	}
-	
+
 
 }

@@ -81,4 +81,6 @@ public interface SuperOrderStatusService {
      * @return the searhed list SuperOrderStatus 
      */
 	List<SuperOrderStatus> findByCriteria( SuperOrderStatusVo superOrderStatusVo);
+
+
 }

@@ -1,5 +1,6 @@
 package ma.zs.generated.service.facade;
 
+import java.util.Date;
 import java.util.List;
 import ma.zs.generated.bean.Client;
 import ma.zs.generated.ws.rest.provided.vo.ClientVo;
@@ -72,4 +73,32 @@ public interface ClientService {
      * @return the searhed list Client 
      */
 	List<Client> findByCriteria( ClientVo clientVo);
+
+
+    /**
+     * search for top 5 Client
+     *
+     * @return the searhed list Client
+     */
+    public List<ClientVo> findTopfiveClient(Date start, Date end);
+
+    /**
+     * find Client from database
+     *
+     * @param firstName   of Client to be found
+     * @param lastName    of Client to be found
+     * @param phoneNumber of Client to be found
+     * @return Client found successfully, If the Client can't be found return null
+     */
+    Client findByFirstNameAndLastNameAndPhoneNumber(String firstName, String lastName, String phoneNumber);
+
+    /**
+     * save Client in database
+     *
+     * @param client - Client to be saved
+     * @return the saved Client, If the Client can't be saved return null.
+     */
+    Client savePlainClient(Client client);
+
+    public Client findByFirstNameAndLastName(String firstName, String lastName);
 }

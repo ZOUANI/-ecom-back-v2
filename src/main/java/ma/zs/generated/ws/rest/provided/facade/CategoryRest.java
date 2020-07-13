@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.Category; 
+import ma.zs.generated.bean.Category;
 import ma.zs.generated.service.facade.CategoryService;
 import ma.zs.generated.ws.rest.provided.converter.CategoryConverter;
 import ma.zs.generated.ws.rest.provided.vo.CategoryVo;
@@ -23,21 +23,21 @@ import ma.zs.generated.ws.rest.provided.vo.CategoryVo;
 @RequestMapping("generated/category")
 public class CategoryRest {
 
-	@Autowired 
+	@Autowired
 	private CategoryService categoryService;
-	
-	@Autowired 
+
+	@Autowired
 	private CategoryConverter categoryConverter ;
 
-    @ApiOperation("Saves the specified category")
+	@ApiOperation("Saves the specified category")
 	@PostMapping("/")
 	public CategoryVo save(@RequestBody CategoryVo categoryVo){
 		Category category= categoryConverter.toItem(categoryVo);
-	  category=	categoryService.save(category);
+		category=	categoryService.save(category);
 		return categoryConverter.toVo(category);
 	}
 
-    @ApiOperation("Delete the specified category")
+	@ApiOperation("Delete the specified category")
 	@DeleteMapping("/")
 	public int delete(@RequestBody CategoryVo categoryVo){
 		Category category = categoryConverter.toItem(categoryVo);
@@ -48,7 +48,7 @@ public class CategoryRest {
 	@PutMapping("/")
 	public CategoryVo update(@RequestBody CategoryVo categoryVo){
 		Category category= categoryConverter.toItem(categoryVo);
-	  category=	categoryService.update(category);
+		category=	categoryService.update(category);
 		return categoryConverter.toVo(category);
 	}
 
@@ -57,7 +57,7 @@ public class CategoryRest {
 	public List<CategoryVo> findAll(){
 		return categoryConverter.toVo(categoryService.findAll());
 	}
-    
+
 	@ApiOperation("Finds a category by id")
 	@GetMapping("/id/{id}")
 	public CategoryVo findById(@PathVariable Long id){
@@ -66,32 +66,32 @@ public class CategoryRest {
 	@ApiOperation("Deletes a category by id")
 	@DeleteMapping("/id/{id}")
 	public void deleteById(@PathVariable Long id){
-		 categoryService.deleteById(id);
+		categoryService.deleteById(id);
 	}
 
 	@ApiOperation("Finds a  category by label")
-    @GetMapping("/label/{label}")
+	@GetMapping("/label/{label}")
 	public CategoryVo findByLabel(@PathVariable String label){
 		return  categoryConverter.toVo(categoryService.findByLabel(label));
 	}
 	@ApiOperation("Deletes a  category by label")
-    @DeleteMapping("/label/{label}")
+	@DeleteMapping("/label/{label}")
 	public int deleteByLabel(@PathVariable String label){
 		return  categoryService.deleteByLabel(label);
 	}
-	
 
 
-   
-    @ApiOperation("Search category by a specific criterion")
-    @PostMapping("/search")
+
+
+	@ApiOperation("Search category by a specific criterion")
+	@PostMapping("/search")
 	public List<CategoryVo> findByCriteria(@RequestBody CategoryVo categoryVo){
-       return categoryConverter.toVo(categoryService.findByCriteria(categoryVo));
-	}	
+		return categoryConverter.toVo(categoryService.findByCriteria(categoryVo));
+	}
 	public CategoryConverter getCategoryConverter(){
 		return categoryConverter;
 	}
- 
+
 	public void setCategoryConverter(CategoryConverter categoryConverter){
 		this.categoryConverter=categoryConverter;
 	}
@@ -100,8 +100,8 @@ public class CategoryRest {
 		return categoryService;
 	}
 	public void setCategoryService( CategoryService categoryService){
-	 	this.categoryService=categoryService;
+		this.categoryService=categoryService;
 	}
-	
+
 
 }

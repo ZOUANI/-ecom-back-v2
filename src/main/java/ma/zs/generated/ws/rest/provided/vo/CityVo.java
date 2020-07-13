@@ -8,10 +8,15 @@ public class CityVo {
      private String id ;
    
      private String postCode ;
-   
 
 
 
+    private Long totalCommands;
+
+    public CityVo(String name, Long totalCommands) {
+        this.name = name;
+        this.totalCommands = totalCommands;
+    }
 
  public CityVo(){
        super();
@@ -42,10 +47,11 @@ public class CityVo {
      }
 
 
-     
+    public Long getTotalCommands() {
+        return totalCommands;
+    }
 
-
-
-
-
+    public void setTotalCommands(Long totalCommands) {
+        this.totalCommands = totalCommands;
+    }
 }

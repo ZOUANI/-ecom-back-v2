@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +16,6 @@ import ma.zs.generated.service.facade.CommentService;
 import ma.zs.generated.service.facade.CommandService;   
 
 import ma.zs.generated.ws.rest.provided.vo.CommentVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -67,16 +68,16 @@ public class CommentServiceImpl implements CommentService {
    }
 	@Override	
 	public Comment save (Comment comment){
-	    
-	          if(comment.getCommand()!=null){
-				    Command command = commandService.findByReference(comment.getCommand().getReference());
-				  if(command == null)
-				  comment.setCommand(commandService.save(comment.getCommand()));
-				  else
-				  comment.setCommand(command);
-			  }
-
-	    Comment savedComment = commentDao.save(comment);
+//
+//	          if(comment.getCommand()!=null){
+////				    Command command = commandService.findByReference(comment.getCommand().getReference());
+////				  if(command == null)
+//////				  comment.setCommand(commandService.save(comment.getCommand()));
+////				  else
+//				  comment.setCommand(command);
+//			  }
+//
+   Comment savedComment = commentDao.save(comment);
 	   return savedComment;
 	}
 

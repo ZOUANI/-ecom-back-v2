@@ -1,5 +1,6 @@
 package ma.zs.generated.service.facade;
 
+import java.util.Date;
 import java.util.List;
 import ma.zs.generated.bean.Product;
 import ma.zs.generated.ws.rest.provided.vo.ProductVo;
@@ -81,4 +82,33 @@ public interface ProductService {
      * @return the searhed list Product 
      */
 	List<Product> findByCriteria( ProductVo productVo);
+
+	/**
+	 * search for statistics Product in a period
+	 *
+	 * @return the searched list Product
+	 */
+	public List<ProductVo> findProductStatistics(Date start, Date end);
+
+	/**
+	 * search for top 5 Product in a period
+	 *
+	 * @return the searched list Product
+	 */
+	public List<ProductVo> findTopfiveProduct(Date start, Date end);
+
+	/**
+	 * search for a Product by @param label
+	 *
+	 * @return the searched Product
+	 */
+	Product findByLabel(String label);
+
+	/**
+	 * save Product in database
+	 *
+	 * @param product - Product to be saved
+	 * @return the saved Product
+	 */
+	Product savePlainProduct(Product product);
 }

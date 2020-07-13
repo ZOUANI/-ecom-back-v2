@@ -1,11 +1,12 @@
-package ma.zs.generated.service.util;
- 
- 
- 
+package ma.zs.generated.util;
+
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
+
 public class DateUtil {
 
     public static String formateDate(Date date) {
@@ -39,14 +40,14 @@ public class DateUtil {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
             Date parsedDate = dateFormat.parse(date);
-            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            Timestamp timestamp = new Timestamp(parsedDate.getTime());
             return timestamp;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static java.sql.Date convertFormUtilToSql(java.util.Date date) {
+    public static java.sql.Date convertFormUtilToSql(Date date) {
         if (date != null) {
             return new java.sql.Date(date.getTime());
         } else {
@@ -54,11 +55,37 @@ public class DateUtil {
         }
     }
 
-    public static java.sql.Timestamp convertFormUtilToTimestamp(java.util.Date date) {
+    public static Timestamp convertFormUtilToTimestamp(Date date) {
         if (date != null) {
-            return new java.sql.Timestamp(date.getTime());
+            return new Timestamp(date.getTime());
         } else {
             return null;
+        }
+    }
+
+    public static LocalDate fromDate(Date date) {
+        return asLocalDate(date, ZoneId.systemDefault());
+    }
+
+    public static LocalDate asLocalDate(Date date, ZoneId zone) {
+        if (date == null) {
+            return null;
+        }
+
+        if (date instanceof java.sql.Date) {
+            return ((java.sql.Date) date).toLocalDate();
+        } else {
+            return Instant.ofEpochMilli(date.getTime()).atZone(zone).toLocalDate();
+
+        }
+    }
+
+    public static Date toDate(LocalDate localDate) {
+        if (localDate == null) {
+            return null;
+        } else {
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.of("GMT")));
+            return Date.from(instant);
         }
     }
 

@@ -3,7 +3,7 @@ package ma.zs.generated.bean;
 import javax.persistence.ManyToOne;
 import java.util.List;
 import javax.persistence.OneToMany;
-import java.math.BigDecimal;   
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -21,6 +21,7 @@ public class Product {
      private String size ;
      private String reference ;
      private BigDecimal weight ;
+     private String color;
 
      @OneToMany(mappedBy = "product")
      private List<OrderLine> orderLines ;

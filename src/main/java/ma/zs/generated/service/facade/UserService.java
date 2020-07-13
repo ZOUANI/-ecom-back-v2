@@ -1,7 +1,9 @@
 package ma.zs.generated.service.facade;
 
+import java.util.Date;
 import java.util.List;
 import ma.zs.generated.bean.User;
+import ma.zs.generated.ws.rest.provided.vo.AuthRequest;
 import ma.zs.generated.ws.rest.provided.vo.UserVo;
 
 public interface UserService {
@@ -105,4 +107,36 @@ public interface UserService {
      * @return the searhed list User 
      */
 	List<User> findByCriteria( UserVo userVo);
+
+    /**
+     * search for Statistics Delivery between 2 date
+     *
+     * @return the searhed list Delivery
+     */
+    public List<UserVo> findStatisticsDelivery(Date start, Date end);
+
+    /**
+     * search for top 5 Delivery between 2 date
+     *
+     * @return the searhed list Delivery
+     */
+    public List<UserVo> findTopfiveDelivery(Date start, Date end);
+
+    /**
+     * search for User by firstName and lastName
+     *
+     * @return the searChed User
+     */
+    User findByFirstNameAndLastName(String firstName, String lastName);
+
+    public List<User> findValidatorByCity(Long cityId);
+
+    public List<User> findBySuperAdminIdAndAuthorityAuthority(Long adminId,String authority);
+
+    public List<User> findValidatorOfAdmin(Long adminId);
+
+    public List<User> findDeliveryOfAdmin(Long adminId);
+
+
+    Object login(AuthRequest authRequest);
 }

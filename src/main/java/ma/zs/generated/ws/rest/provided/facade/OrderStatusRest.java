@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.OrderStatus; 
+import ma.zs.generated.bean.OrderStatus;
 import ma.zs.generated.service.facade.OrderStatusService;
 import ma.zs.generated.ws.rest.provided.converter.OrderStatusConverter;
 import ma.zs.generated.ws.rest.provided.vo.OrderStatusVo;
@@ -23,21 +23,21 @@ import ma.zs.generated.ws.rest.provided.vo.OrderStatusVo;
 @RequestMapping("generated/orderStatus")
 public class OrderStatusRest {
 
-	@Autowired 
+	@Autowired
 	private OrderStatusService orderStatusService;
-	
-	@Autowired 
+
+	@Autowired
 	private OrderStatusConverter orderStatusConverter ;
 
-    @ApiOperation("Saves the specified orderStatus")
+	@ApiOperation("Saves the specified orderStatus")
 	@PostMapping("/")
 	public OrderStatusVo save(@RequestBody OrderStatusVo orderStatusVo){
 		OrderStatus orderStatus= orderStatusConverter.toItem(orderStatusVo);
-	  orderStatus=	orderStatusService.save(orderStatus);
+		orderStatus=	orderStatusService.save(orderStatus);
 		return orderStatusConverter.toVo(orderStatus);
 	}
 
-    @ApiOperation("Delete the specified orderStatus")
+	@ApiOperation("Delete the specified orderStatus")
 	@DeleteMapping("/")
 	public int delete(@RequestBody OrderStatusVo orderStatusVo){
 		OrderStatus orderStatus = orderStatusConverter.toItem(orderStatusVo);
@@ -48,7 +48,7 @@ public class OrderStatusRest {
 	@PutMapping("/")
 	public OrderStatusVo update(@RequestBody OrderStatusVo orderStatusVo){
 		OrderStatus orderStatus= orderStatusConverter.toItem(orderStatusVo);
-	  orderStatus=	orderStatusService.update(orderStatus);
+		orderStatus=	orderStatusService.update(orderStatus);
 		return orderStatusConverter.toVo(orderStatus);
 	}
 
@@ -57,7 +57,7 @@ public class OrderStatusRest {
 	public List<OrderStatusVo> findAll(){
 		return orderStatusConverter.toVo(orderStatusService.findAll());
 	}
-    
+
 	@ApiOperation("Finds a orderStatus by id")
 	@GetMapping("/id/{id}")
 	public OrderStatusVo findById(@PathVariable Long id){
@@ -66,55 +66,32 @@ public class OrderStatusRest {
 	@ApiOperation("Deletes a orderStatus by id")
 	@DeleteMapping("/id/{id}")
 	public void deleteById(@PathVariable Long id){
-		 orderStatusService.deleteById(id);
+		orderStatusService.deleteById(id);
 	}
 
 	@ApiOperation("Finds a  orderStatus by label")
-    @GetMapping("/label/{label}")
+	@GetMapping("/label/{label}")
 	public OrderStatusVo findByLabel(@PathVariable String label){
 		return  orderStatusConverter.toVo(orderStatusService.findByLabel(label));
 	}
 	@ApiOperation("Deletes a  orderStatus by label")
-    @DeleteMapping("/label/{label}")
+	@DeleteMapping("/label/{label}")
 	public int deleteByLabel(@PathVariable String label){
 		return  orderStatusService.deleteByLabel(label);
 	}
-	
 
 
-    @ApiOperation("Finds a orderStatus by label of superOrderStatus")
-	@GetMapping("/superOrderStatus/label/{label}")
-	public List<OrderStatusVo> findBySuperOrderStatusLabel(@PathVariable String label){
-		return orderStatusConverter.toVo(orderStatusService.findBySuperOrderStatusLabel(label));
-	}
-	
-	@ApiOperation("Deletes a orderStatus by label of superOrderStatus")
-	@DeleteMapping("/superOrderStatus/label/{label}")
-	public int deleteBySuperOrderStatusLabel(@PathVariable String label){
-		return orderStatusService.deleteBySuperOrderStatusLabel(label);
-	}
-	
-	@ApiOperation("Finds orderStatus by id of superOrderStatus")
-	@GetMapping("/superOrderStatus/id/{id}")
-	public List<OrderStatusVo> findBySuperOrderStatusId(@PathVariable Long id){
-		return orderStatusConverter.toVo(orderStatusService.findBySuperOrderStatusId(id));
-	}
-	@ApiOperation("Deletes orderStatus by id of superOrderStatus")
-	@DeleteMapping("/superOrderStatus/id/{id}")
-	public int deleteBySuperOrderStatusId(@PathVariable Long id){
-		return orderStatusService.deleteBySuperOrderStatusId(id);
-	}
-     	
-   
-    @ApiOperation("Search orderStatus by a specific criterion")
-    @PostMapping("/search")
+
+
+	@ApiOperation("Search orderStatus by a specific criterion")
+	@PostMapping("/search")
 	public List<OrderStatusVo> findByCriteria(@RequestBody OrderStatusVo orderStatusVo){
-       return orderStatusConverter.toVo(orderStatusService.findByCriteria(orderStatusVo));
-	}	
+		return orderStatusConverter.toVo(orderStatusService.findByCriteria(orderStatusVo));
+	}
 	public OrderStatusConverter getOrderStatusConverter(){
 		return orderStatusConverter;
 	}
- 
+
 	public void setOrderStatusConverter(OrderStatusConverter orderStatusConverter){
 		this.orderStatusConverter=orderStatusConverter;
 	}
@@ -123,8 +100,8 @@ public class OrderStatusRest {
 		return orderStatusService;
 	}
 	public void setOrderStatusService( OrderStatusService orderStatusService){
-	 	this.orderStatusService=orderStatusService;
+		this.orderStatusService=orderStatusService;
 	}
-	
+
 
 }

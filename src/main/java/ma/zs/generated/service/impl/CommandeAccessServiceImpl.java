@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +18,6 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.service.facade.CommandService;   
 
 import ma.zs.generated.ws.rest.provided.vo.CommandeAccessVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class CommandeAccessServiceImpl implements CommandeAccessService {
 
@@ -96,10 +97,10 @@ public class CommandeAccessServiceImpl implements CommandeAccessService {
 	    
 	          if(commandeAccess.getCommand()!=null){
 				    Command command = commandService.findByReference(commandeAccess.getCommand().getReference());
-				  if(command == null)
-				  commandeAccess.setCommand(commandService.save(commandeAccess.getCommand()));
-				  else
-				  commandeAccess.setCommand(command);
+//				  if(command == null)
+//				  commandeAccess.setCommand(commandService.save(commandeAccess.getCommand()));
+//				  else
+//				  commandeAccess.setCommand(command);
 			  }
 	    
 	          if(commandeAccess.getValidator()!=null){
