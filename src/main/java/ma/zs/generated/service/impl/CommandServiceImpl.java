@@ -712,13 +712,11 @@ public class CommandServiceImpl implements CommandService {
 	}
 
 	@Override
-	public Command assignment(Command command) {
-		Command oldCommand = findById(command.getId());
-		oldCommand.setValidator(command.getValidator());
-		oldCommand.setDelivery(command.getDelivery());
-		oldCommand.setOrderStatus(command.getOrderStatus());
-		commandDao.save(oldCommand);
-		return oldCommand;
+	public Command assignment(Long commandId, Long validatorId, Long deliveryId) {
+		Command oldCommand = findById(commandId);
+		oldCommand.setValidator(userService.findById(validatorId));
+		oldCommand.setDelivery(userService.findById(deliveryId));
+		return commandDao.save(oldCommand);
 	}
 
 }
