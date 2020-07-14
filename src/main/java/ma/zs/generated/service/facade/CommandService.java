@@ -173,7 +173,7 @@ public interface CommandService {
 
     public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId);
 
-    public Command assignment(Command command);
+    public Command assignment(Long commandId, Long validatorId, Long deliveryId);
 
     public List<Command> findCommandsNoBloquedOfValidator(Long validatorId);
 
