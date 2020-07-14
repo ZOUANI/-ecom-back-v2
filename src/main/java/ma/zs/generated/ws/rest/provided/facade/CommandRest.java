@@ -299,8 +299,17 @@ public class CommandRest {
 
 	}
 
+	@ApiOperation("commands not blocked of validators")
+	@GetMapping("/commands/validatorId/{validatorId}")
+	public List<CommandVo> findCommandsNoBloquedOfValidator(@PathVariable Long validatorId) {
+		 return commandConverter.toVo(commandService.findCommandsNoBloquedOfValidator(validatorId));
+	}
 
-	public void setCommandConverter(CommandConverter commandConverter) {
+
+
+
+
+		public void setCommandConverter(CommandConverter commandConverter) {
 		this.commandConverter = commandConverter;
 	}
 
