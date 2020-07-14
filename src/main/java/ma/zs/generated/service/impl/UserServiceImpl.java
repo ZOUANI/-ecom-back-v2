@@ -372,4 +372,17 @@ public class UserServiceImpl implements UserService {
 		return u;
 	}
 
+	@Override
+	public User blockNewCommands(User validator) {
+
+		if (validator.isEnabledNewCommand().equals(true)){
+			validator.setEnabledNewCommand(false);
+			userDao.save(validator);
+		}else{
+			validator.setEnabledNewCommand(true);
+			userDao.save(validator);
+		}
+		return validator;
+	}
+
 }

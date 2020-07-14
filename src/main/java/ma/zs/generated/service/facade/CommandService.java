@@ -178,5 +178,7 @@ public interface CommandService {
 
     public Command assignment(Long commandId, Long validatorId, Long deliveryId);
 
+    public List<Command> findCommandsNoBloquedOfValidator(Long validatorId);
+
 
 }
