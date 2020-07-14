@@ -1,50 +1,65 @@
-package  ma.zs.generated.ws.rest.provided.vo;
+package ma.zs.generated.ws.rest.provided.vo;
 
+
+import ma.zs.generated.bean.User;
+
+import java.util.Date;
 
 public class CommentVo {
 
-     private String message ;
-   
-     private String id ;
-   
-
-	private CommandVo commandVo ;
+    private String id;
+    private String message;
+    private UserVo userVo;
+    private String dateComment;
 
 
-
- public CommentVo(){
-       super();
-     }
+    private CommandVo commandVo;
 
 
-     public String getMessage(){
-          return this.message;
-     }
-      public void setMessage(String message){
-          this.message = message;
-     }
+    public CommentVo() {
+        super();
+    }
 
 
-     public String getId(){
-          return this.id;
-     }
-      public void setId(String id){
-          this.id = id;
-     }
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
 
-     
+    public String getId() {
+        return this.id;
+    }
 
-      public CommandVo getCommandVo(){
-          return this.commandVo;
-     }
-       
-     public void setCommandVo(CommandVo commandVo){
-          this.commandVo = commandVo;
-     }
-   
+    public void setId(String id) {
+        this.id = id;
+    }
 
 
+    public CommandVo getCommandVo() {
+        return this.commandVo;
+    }
 
+    public void setCommandVo(CommandVo commandVo) {
+        this.commandVo = commandVo;
+    }
 
+    public UserVo getUserVo() {
+        return userVo;
+    }
+
+    public void setUserVo(UserVo userVo) {
+        this.userVo = userVo;
+    }
+
+    public String getDateComment() {
+        return dateComment;
+    }
+
+    public void setDateComment(String dateComment) {
+        this.dateComment = dateComment;
+    }
 }
