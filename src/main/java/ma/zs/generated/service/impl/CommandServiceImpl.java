@@ -430,6 +430,9 @@ public class CommandServiceImpl implements CommandService {
                 c.setOrderStatus(orderStatus);
         }
         LocalDate orderDate = DateUtil.fromDate(c.getOrderDate());
+        if (orderDate == null) {
+            orderDate = LocalDate.now();
+        }
         c.setDay(orderDate.getDayOfMonth());
         c.setMonth(orderDate.getMonthValue());
         c.setYear(orderDate.getYear());
@@ -729,17 +732,17 @@ public class CommandServiceImpl implements CommandService {
         return commandDao.save(oldCommand);
     }
 
-	@Override
-	public List<Command> findCommandsNoBloquedOfValidator(Long validatorId) {
-		List<Command> validatorCommands = findCommandsOfValidator(validatorId);
-		User validator = userService.findById(validatorId);
-		List<Command> newCommands = findByAdminIdAndValidatorIsNullAndDeliveryIsNull(validator.getSuperAdmin().getId());
-		if (validator.isEnabledNewCommand().equals(true)){
-			validatorCommands.addAll(newCommands);
-		}
+    @Override
+    public List<Command> findCommandsNoBloquedOfValidator(Long validatorId) {
+        List<Command> validatorCommands = findCommandsOfValidator(validatorId);
+        User validator = userService.findById(validatorId);
+        List<Command> newCommands = findByAdminIdAndValidatorIsNullAndDeliveryIsNull(validator.getSuperAdmin().getId());
+        if (validator.isEnabledNewCommand().equals(true)) {
+            validatorCommands.addAll(newCommands);
+        }
 
-		System.out.println(validatorCommands.size());
-		return validatorCommands;
-	}
+        System.out.println(validatorCommands.size());
+        return validatorCommands;
+    }
 
 }
