@@ -22,7 +22,7 @@ public interface CommandService {
      *
      * @param reference - reference of Command
      * @return the founded Command , If no Command were found in database return
-     *         null.
+     * null.
      */
     Command findByReference(String reference);
 
@@ -31,7 +31,7 @@ public interface CommandService {
      *
      * @param id - id of Command
      * @return the founded Command , If no Command were found in database return
-     *         null.
+     * null.
      */
     Command findById(Long id);
 
@@ -89,7 +89,7 @@ public interface CommandService {
      * @param command - Command to be saved
      * @return the saved Command, If the Command can't be saved return null.
      */
-    Command save(Long adminId,Command command);
+    Command save(Long adminId, Command command);
 
     /**
      * save list Command in database
@@ -97,7 +97,7 @@ public interface CommandService {
      * @param commands - list of Command to be saved
      * @return the saved Command list
      */
-    List<Command> save(Long adminId,List<Command> commands);
+    List<Command> save(Long adminId, List<Command> commands);
 
     /**
      * update Command in database
@@ -112,7 +112,7 @@ public interface CommandService {
      *
      * @param command - Command to be deleted
      * @return 1 if Command deleted successfully, If the Command can't be deleted
-     *         return negative int
+     * return negative int
      */
     int delete(Command command);
 
@@ -167,13 +167,18 @@ public interface CommandService {
 
     public List<CommandVo> deliveryChartByCurrentYear(Long id);
 
-    int save(String commands);
+    List<Command> save(String commands);
+
+    void saveMappedCommands(List<Command> commands);
+
 
     public void calculTotal(Command command, List<OrderLine> orderLines);
 
     public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId);
 
-    public Command assignment(Command command);
+    public Command assignment(Long commandId, Long validatorId, Long deliveryId);
+
+    public List<Command> findCommandsNoBloquedOfValidator(Long validatorId);
 
 
 }

@@ -21,7 +21,6 @@ public interface CommandDao extends JpaRepository<Command,Long> {
 
        List<Command> findByValidatorCode(String code);
        int deleteByValidatorCode(String code);       
-       List<Command> findByValidatorId(Long id);
        int deleteByValidatorId(Long id);
        List<Command> findByDeliveryCode(String code);
        int deleteByDeliveryCode(String code);       
@@ -75,5 +74,9 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        public List<CommandVo> deliveryChartByCurrentYear(@Param("id") Long id,@Param("year") int year);
 
        public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId);
+
+
+
+       List<Command> findByValidatorId(Long validatorId);
 
 }

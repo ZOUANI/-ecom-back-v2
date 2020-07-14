@@ -3,6 +3,7 @@ package ma.zs.generated.ws.rest.provided.facade;
 import java.util.Date;
 import java.util.List;
 
+import ma.zs.generated.bean.Command;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -233,6 +234,12 @@ public class UserRest {
 
 	}
 
+	@ApiOperation("block new Commands")
+	@PutMapping("/validator")
+	public UserVo blockNewCommands(@RequestBody UserVo validatorVo) {
+		User validator = userConverter.toItem(validatorVo);
+		return userConverter.toVo(userService.blockNewCommands(validator));
+	}
 
 	public UserConverter getUserConverter() {
 		return userConverter;

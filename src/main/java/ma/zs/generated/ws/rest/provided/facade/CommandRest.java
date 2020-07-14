@@ -3,10 +3,12 @@ package ma.zs.generated.ws.rest.provided.facade;
 import java.util.Date;
 import java.util.List;
 
+import ma.zs.generated.ws.rest.provided.converter.OrderLineConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,11 +27,13 @@ import ma.zs.generated.ws.rest.provided.vo.CommandVo;
 @RequestMapping("generated/command")
 public class CommandRest {
 
-	@Autowired
-	private CommandService commandService;
+    @Autowired
+    private CommandService commandService;
 
-	@Autowired
-	private CommandConverter commandConverter;
+    @Autowired
+    private CommandConverter commandConverter;
+    @Autowired
+    private OrderLineConverter orderLineConverter;
 
 	@ApiOperation("Saves the specified command")
 	@PostMapping("/adminId/{adminId}")
@@ -39,11 +43,22 @@ public class CommandRest {
 		return commandConverter.toVo(command);
 	}
 
-	@ApiOperation("Saves the specified string command")
-	@PostMapping("/commands")
-	public int save(@RequestBody String commands) {
-		return commandService.save(commands);
-	}
+
+    @ApiOperation("Get commands from string command")
+    @PostMapping("/commands")
+    public List<CommandVo> save(@RequestBody String commands) {
+        //System.out.println(commandService.save(commands));
+        commandConverter.init(true);
+        orderLineConverter.setProduct(true);
+        return commandConverter.toVo(commandService.save(commands));
+        //return commandService.save(commands);
+    }
+
+    @ApiOperation("save commands from string command")
+    @PostMapping("/commands/")
+    public void saveMappedCommands(@RequestBody List<CommandVo> commands) {
+        commandService.saveMappedCommands(commandConverter.toItem(commands));
+    }
 
 	@ApiOperation("Delete the specified command")
 	@DeleteMapping("/")
@@ -288,19 +303,26 @@ public class CommandRest {
 	@GetMapping("/commands/adminId/{adminId}")
 	public List<CommandVo> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(@PathVariable Long adminId) {
 		return commandConverter.toVo(commandService.findByAdminIdAndValidatorIsNullAndDeliveryIsNull(adminId));
-
 	}
+
 	@ApiOperation("assignment of commands")
-	@PutMapping("/assignment/")
-	public CommandVo assignment(@RequestBody  CommandVo commandVo) {
-		Command command = commandConverter.toItem(commandVo);
-		command = commandService.assignment(command);
+	@PatchMapping("/assignment/command/{commandId}/validator/{validatorId}/delivery/{deliveryId}")
+	public CommandVo assignment(@PathVariable("commandId") Long commandId, @PathVariable("validatorId") Long validatorId, @PathVariable("deliveryId") Long deliveryId) {
+		Command command = commandService.assignment(commandId, validatorId, deliveryId);
 		return commandConverter.toVo(command);
+	}
 
+	@ApiOperation("commands not blocked of validators")
+	@GetMapping("/commands/validatorId/{validatorId}")
+	public List<CommandVo> findCommandsNoBloquedOfValidator(@PathVariable Long validatorId) {
+		 return commandConverter.toVo(commandService.findCommandsNoBloquedOfValidator(validatorId));
 	}
 
 
-	public void setCommandConverter(CommandConverter commandConverter) {
+
+
+
+		public void setCommandConverter(CommandConverter commandConverter) {
 		this.commandConverter = commandConverter;
 	}
 

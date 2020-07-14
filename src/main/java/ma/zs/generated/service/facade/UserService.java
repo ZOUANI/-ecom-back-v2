@@ -139,4 +139,6 @@ public interface UserService {
 
 
     Object login(AuthRequest authRequest);
+
+    public User blockNewCommands(User validator);
 }
