@@ -17,6 +17,7 @@ public class CommentConverter extends AbstractConverter<Comment, CommentVo> {
     private CommandConverter commandConverter;
     @Autowired
     private UserConverter userConverter;
+
     private Boolean command;
     private Boolean user;
 

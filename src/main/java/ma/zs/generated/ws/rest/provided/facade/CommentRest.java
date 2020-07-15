@@ -35,7 +35,7 @@ public class CommentRest {
     @ApiOperation("Saves the specified comment")
     @PostMapping("/")
     public CommentVo save(@RequestBody CommentVo commentVo) {
-        commentConverter.init(true);
+        commandConverter.init(true);
         commandConverter.setComments(false);
         Comment comment = commentConverter.toItem(commentVo);
         comment = commentService.save(comment);
@@ -79,6 +79,8 @@ public class CommentRest {
     @ApiOperation("Finds a comment by reference of command")
     @GetMapping("/command/reference/{reference}")
     public List<CommentVo> findByCommandReference(@PathVariable String reference) {
+        commentConverter.init(true);
+        commentConverter.setCommand(false);
         return commentConverter.toVo(commentService.findByCommandReference(reference));
     }
 
