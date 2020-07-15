@@ -58,6 +58,7 @@ public class ProductRest {
     @ApiOperation("Finds a list of all products")
     @GetMapping("/")
     public List<ProductVo> findAll() {
+        productConverter.setOrderLines(false);
         return productConverter.toVo(productService.findAll());
     }
 
