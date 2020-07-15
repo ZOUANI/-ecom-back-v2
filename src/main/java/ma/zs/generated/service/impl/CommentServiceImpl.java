@@ -1,5 +1,6 @@
 package ma.zs.generated.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -75,29 +76,18 @@ public class CommentServiceImpl implements CommentService {
    }
 	@Override	
 	public Comment save (Comment comment){
-		System.out.println("salam");
 		if (comment.getCommand() == null || comment.getUser() == null){
-			System.out.println("error case");
 			System.out.println(comment.getCommand());
 			System.out.println(comment.getUser());
 			return null;
 		}else {
-			System.out.println("success case");
 			Command command = commandService.findByReference(comment.getCommand().getReference());
 			User user = userDao.getOne(comment.getUser().getId());
 			comment.setCommand(command);
 			comment.setUser(user);
+			comment.setDateComment(new Date());
 			return commentDao.save(comment);
 		}
-//	          if(comment.getCommand()!=null){
-//				    Command command = commandService.findByReference(comment.getCommand().getReference());
-//				  if(command == null)
-//				  comment.setCommand(commandDao.save(comment.getCommand()));
-//				  else
-//				  comment.setCommand(command);
-//			  }
-//   Comment savedComment = commentDao.save(comment);
-//	   return savedComment;
 	}
 
     @Override

@@ -7,6 +7,7 @@ import ma.zs.generated.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
   
 import ma.zs.generated.bean.Command; 
 import ma.zs.generated.ws.rest.provided.vo.CommandVo;
@@ -115,7 +116,7 @@ public class CommandConverter extends AbstractConverter<Command,CommandVo>{
             if(item.getOrderDate()!=null)
 			    vo.setOrderDate(DateUtil.formateDate(item.getOrderDate()));	     
             if(item.getRegulationDate()!=null)
-			    vo.setRegulationDate(DateUtil.formateDate(item.getRegulationDate()));	     
+			    vo.setRegulationDate(DateUtil.formateDate(item.getRegulationDate()));
 			if(StringUtil.isNotEmpty(item.getReference()))
 				vo.setReference(item.getReference());
 			
