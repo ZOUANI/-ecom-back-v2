@@ -12,46 +12,65 @@ import java.util.List;
 
 import ma.zs.generated.bean.Command;
 
-
 @Repository
-public interface CommandDao extends JpaRepository<Command,Long> {
+public interface CommandDao extends JpaRepository<Command, Long> {
 
-	Command findByReference(String reference);
+       Command findByReference(String reference);
+
        int deleteByReference(String reference);
 
        List<Command> findByValidatorCode(String code);
-       int deleteByValidatorCode(String code);       
+
+       int deleteByValidatorCode(String code);
+
        int deleteByValidatorId(Long id);
+
        List<Command> findByDeliveryCode(String code);
-       int deleteByDeliveryCode(String code);       
+
+       int deleteByDeliveryCode(String code);
+
        List<Command> findByDeliveryId(Long id);
+
        int deleteByDeliveryId(Long id);
+
        List<Command> findByDeliveryCostId(Long id);
+
        int deleteByDeliveryCostId(Long id);
+
        List<Command> findByOrderStatusLabel(String label);
-       int deleteByOrderStatusLabel(String label);       
+
+       int deleteByOrderStatusLabel(String label);
+
        List<Command> findByOrderStatusId(Long id);
+
        int deleteByOrderStatusId(Long id);
+
        List<Command> findByCityName(String name);
-       int deleteByCityName(String name);       
+
+       int deleteByCityName(String name);
+
        List<Command> findByCityId(Long id);
+
        int deleteByCityId(Long id);
+
        List<Command> findByAdminCode(String code);
-       int deleteByAdminCode(String code);       
+
+       int deleteByAdminCode(String code);
+
        List<Command> findByAdminId(Long id);
+
        int deleteByAdminId(Long id);
+
        List<Command> findByClientId(Long id);
+
        int deleteByClientId(Long id);
-
-
-
 
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.day,c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.orderDate BETWEEN  :start AND :end group by c.orderDate")
        public List<CommandVo> findStatisticsTotalCommands(@Param("start") Date start, @Param("end") Date end);
 
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.day,c.month,COUNT(c.id),SUM(c.total)) FROM Command c where  c.orderStatus.label = :status or c.orderDate BETWEEN :start AND :end group by c.orderDate")
-       public List<CommandVo> findStatisticsCommandsByStatus(@Param("start") Date start, @Param("end") Date end, @Param("status") String status);
-
+       public List<CommandVo> findStatisticsCommandsByStatus(@Param("start") Date start, @Param("end") Date end,
+                     @Param("status") String status);
 
        @Query("SELECT c FROM Command c where c.orderDate BETWEEN  :start AND :end")
        public List<Command> findAllCommandsBetween(@Param("start") Date start, @Param("end") Date end);
@@ -66,17 +85,27 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        public List<User> findDeliveryOfValidator(@Param("id") Long id);
 
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.validator.id = :id and c.year = :year and c.orderStatus.label = 'confirmed' group by c.month order by c.month")
-       public List<CommandVo> validatorChartByCurrentYear(@Param("id") Long id,@Param("year") int year);
+       public List<CommandVo> validatorChartByCurrentYear(@Param("id") Long id, @Param("year") int year);
 
        public List<Command> findCommandByDeliveryId(Long id);
 
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.delivery.id = :id and c.year = :year and c.orderStatus.label = 'closed' group by c.month order by c.month")
-       public List<CommandVo> deliveryChartByCurrentYear(@Param("id") Long id,@Param("year") int year);
+       public List<CommandVo> deliveryChartByCurrentYear(@Param("id") Long id, @Param("year") int year);
 
        public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId);
 
-
-
        List<Command> findByValidatorId(Long validatorId);
 
+       @Query("SELECT c FROM Command c, User u WHERE c.validator.id = :validatorId OR (u.id=:validatorId AND u.superAdmin.id = c.admin.id AND c.delivery IS NULL AND c.validator IS NULL AND u.enabledNewCommand=true )")
+       List<Command> findValidatorCommands(@Param("validatorId") Long validatorId);
+
+       // @Query("SELECT c FROM Command c WHERE (c.validator.id = :validatorId ) OR
+       // (c.admin.id = :adminId AND c.delivery IS NULL AND c.validator IS NULL AND
+       // c.validator.enabledNewCommand=true )")
+       // List<Command> findValidatorCommands(@Param("validatorId") Long validatorId,
+       // @Param("adminId") Long adminId);
+
+       @Query("SELECT c FROM Command c JOIN c.commandeAccesses ca WHERE  c.admin.id = :adminId AND c.validator IS NULL AND c.delivery IS NULL AND ((c.commandeAccesses IS EMPTY) OR (:validatorId IN (ca.validator.id)))")
+       public List<Command> findByAdminIdAndValidatorId(@Param("adminId") Long adminId,
+                     @Param("validatorId") Long validatorId);
 }

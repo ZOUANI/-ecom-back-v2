@@ -261,8 +261,8 @@ public class CommandServiceImpl implements CommandService {
         Command savedCommand = commandDao.save(command);
         if (ListUtil.isNotEmpty(command.getOrderLines())) {
             calculTotal(savedCommand, command.getOrderLines());
-            savedCommand
-                    .setOrderLines(orderLinesService.save(adminId, prepareOrderLines(savedCommand, command.getOrderLines())));
+            savedCommand.setOrderLines(
+                    orderLinesService.save(adminId, prepareOrderLines(savedCommand, command.getOrderLines())));
         }
         return savedCommand;
     }
@@ -276,7 +276,7 @@ public class CommandServiceImpl implements CommandService {
             while (scanner.hasNextLine()) {
                 String[] line = scanner.nextLine().split(",");
                 Command command = mapCommand(line);
-                //saveMappedCommand(command);
+                // saveMappedCommand(command);
                 commandList.add(command);
             }
             return commandList;
@@ -328,7 +328,6 @@ public class CommandServiceImpl implements CommandService {
         command.setCity(city);
 
         command.setAdress(line[7].trim());
-
 
         p.setLabel(line[9].trim());
         System.out.println(p.getLabel());
@@ -469,7 +468,6 @@ public class CommandServiceImpl implements CommandService {
     @Override
     public Command update(Command command) {
 
-
         Command foundedCommand = findById(command.getId());
         if (foundedCommand == null)
             return null;
@@ -492,7 +490,6 @@ public class CommandServiceImpl implements CommandService {
         return 1;
     }
 
-
     public List<Command> findByCriteria(CommandVo commandVo) {
         String query = "SELECT o FROM Command o where 1=1 ";
         query += SearchUtil.addConstraint("o", "total", "=", commandVo.getTotal());
@@ -506,8 +503,10 @@ public class CommandServiceImpl implements CommandService {
         query += SearchUtil.addConstraintDate("o", "orderDate", "=", commandVo.getOrderDate());
         query += SearchUtil.addConstraint("o", "id", "=", commandVo.getId());
         query += SearchUtil.addConstraintMinMax("o", "total", commandVo.getTotalMin(), commandVo.getTotalMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "regulationDate", commandVo.getRegulationDateMin(), commandVo.getRegulationDateMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "orderDate", commandVo.getOrderDateMin(), commandVo.getOrderDateMax());
+        query += SearchUtil.addConstraintMinMaxDate("o", "regulationDate", commandVo.getRegulationDateMin(),
+                commandVo.getRegulationDateMax());
+        query += SearchUtil.addConstraintMinMaxDate("o", "orderDate", commandVo.getOrderDateMin(),
+                commandVo.getOrderDateMax());
         if (commandVo.getDeliveryVo() != null) {
             query += SearchUtil.addConstraint("o", "delivery.id", "=", commandVo.getDeliveryVo().getId());
             query += SearchUtil.addConstraint("o", "delivery.code", "LIKE", commandVo.getDeliveryVo().getCode());
@@ -529,7 +528,8 @@ public class CommandServiceImpl implements CommandService {
 
         if (commandVo.getOrderStatusVo() != null) {
             query += SearchUtil.addConstraint("o", "orderStatus.id", "=", commandVo.getOrderStatusVo().getId());
-            query += SearchUtil.addConstraint("o", "orderStatus.label", "LIKE", commandVo.getOrderStatusVo().getLabel());
+            query += SearchUtil.addConstraint("o", "orderStatus.label", "LIKE",
+                    commandVo.getOrderStatusVo().getLabel());
         }
 
         if (commandVo.getCityVo() != null) {
@@ -736,13 +736,13 @@ public class CommandServiceImpl implements CommandService {
     public List<Command> findCommandsNoBloquedOfValidator(Long validatorId) {
         List<Command> validatorCommands = findCommandsOfValidator(validatorId);
         User validator = userService.findById(validatorId);
-        List<Command> newCommands = findByAdminIdAndValidatorIsNullAndDeliveryIsNull(validator.getSuperAdmin().getId());
         if (validator.isEnabledNewCommand().equals(true)) {
-            validatorCommands.addAll(newCommands);
+            validatorCommands.addAll(commandDao.findByAdminIdAndValidatorId(validator.getSuperAdmin().getId(), validatorId));
         }
 
+        // List<Command> commands = commandDao.findValidatorCommands(validatorId);
         System.out.println(validatorCommands.size());
-        return validatorCommands;
+        return new ArrayList<>();
     }
 
 }
