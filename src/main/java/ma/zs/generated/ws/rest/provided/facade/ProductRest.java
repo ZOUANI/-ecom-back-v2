@@ -1,5 +1,6 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -105,6 +106,15 @@ public class ProductRest {
     public List<ProductVo> findProductStatistics(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
                                                  @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end) {
         return productService.findProductStatistics(start, end);
+    }
+
+    @ApiOperation("Search product statistics in period updated")
+    @GetMapping("/statistics/period/{period}")
+    public List<ProductVo> findProductStatisticsByPeriod(@PathVariable String period) {
+        return productService.findProductStatistics(
+        		new Date(new Date().getTime() -  Integer.parseInt(period) * 24 * 3600 * 1000l),
+				new Date()
+		);
     }
 
 

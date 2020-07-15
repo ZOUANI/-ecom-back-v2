@@ -1,8 +1,12 @@
 package ma.zs.generated.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+import ma.zs.generated.bean.User;
+import ma.zs.generated.dao.CommandDao;
+import ma.zs.generated.dao.UserDao;
 import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,10 @@ public class CommentServiceImpl implements CommentService {
 
    @Autowired
    private CommentDao commentDao;
+   @Autowired
+   private CommandDao commandDao;
+   @Autowired
+	UserDao userDao;
    
     @Autowired
     private CommandService commandService ;
@@ -68,17 +76,18 @@ public class CommentServiceImpl implements CommentService {
    }
 	@Override	
 	public Comment save (Comment comment){
-//
-//	          if(comment.getCommand()!=null){
-////				    Command command = commandService.findByReference(comment.getCommand().getReference());
-////				  if(command == null)
-//////				  comment.setCommand(commandService.save(comment.getCommand()));
-////				  else
-//				  comment.setCommand(command);
-//			  }
-//
-   Comment savedComment = commentDao.save(comment);
-	   return savedComment;
+		if (comment.getCommand() == null || comment.getUser() == null){
+			System.out.println(comment.getCommand());
+			System.out.println(comment.getUser());
+			return null;
+		}else {
+			Command command = commandService.findByReference(comment.getCommand().getReference());
+			User user = userDao.getOne(comment.getUser().getId());
+			comment.setCommand(command);
+			comment.setUser(user);
+			comment.setDateComment(new Date());
+			return commentDao.save(comment);
+		}
 	}
 
     @Override
