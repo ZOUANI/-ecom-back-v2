@@ -19,5 +19,6 @@ public interface CommandeAccessDao extends JpaRepository<CommandeAccess,Long> {
        int deleteByValidatorCode(String code);       
        List<CommandeAccess> findByValidatorId(Long id);
        int deleteByValidatorId(Long id);
+	List<CommandeAccess> findByValidatorSuperAdminId(Long adminId);
 
 }

@@ -737,12 +737,22 @@ public class CommandServiceImpl implements CommandService {
         List<Command> validatorCommands = findCommandsOfValidator(validatorId);
         User validator = userService.findById(validatorId);
         if (validator.isEnabledNewCommand().equals(true)) {
-            validatorCommands.addAll(commandDao.findByAdminIdAndValidatorId(validator.getSuperAdmin().getId(), validatorId));
+            // validatorCommands.addAll(commandDao.findByAdminIdAndValidatorId(validator.getSuperAdmin().getId(),
+            // validatorId));
+            List<Command> permittedCommands = findByAdminIdAndValidatorIsNullAndDeliveryIsNull(
+                    validator.getSuperAdmin().getId()).stream().filter(c -> checkCommandAccessRights(c, validatorId))
+                            .collect(Collectors.toList());
+            validatorCommands.addAll(permittedCommands);
         }
 
         // List<Command> commands = commandDao.findValidatorCommands(validatorId);
         System.out.println(validatorCommands.size());
-        return new ArrayList<>();
+        return validatorCommands;
+    }
+
+    private Boolean checkCommandAccessRights(Command c, Long validatorId) {
+        return c.getCommandeAccesses().isEmpty() || c.getCommandeAccesses().stream()
+                .filter(ca -> ca.getValidator().getId().equals(validatorId)).findFirst().orElse(null) != null;
     }
 
 }

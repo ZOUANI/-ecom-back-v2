@@ -52,10 +52,10 @@ public class CommandeAccessRest {
 		return commandeAccessConverter.toVo(commandeAccess);
 	}
 
-	@ApiOperation("Finds a list of all commandeAccesss")
-	@GetMapping("/")
-	public List<CommandeAccessVo> findAll(){
-		return commandeAccessConverter.toVo(commandeAccessService.findAll());
+	@ApiOperation("Finds a list of all commandeAccesss by adminId")
+	@GetMapping("/adminId/{adminId}")
+	public List<CommandeAccessVo> findAll(@PathVariable Long adminId){
+		return commandeAccessConverter.toVo(commandeAccessService.findAll(adminId));
 	}
     
 	@ApiOperation("Finds a commandeAccess by id")
