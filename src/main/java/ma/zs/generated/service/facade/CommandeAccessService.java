@@ -9,9 +9,10 @@ public interface CommandeAccessService {
         /**
 
      * find all CommandeAccess in database 
+         * @param adminId
      * @return List<CommandeAccess> , If database is empty return  null.
      */
-	List<CommandeAccess> findAll();
+	List<CommandeAccess> findAll(Long adminId);
 	   
 
     /**

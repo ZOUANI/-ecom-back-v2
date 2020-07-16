@@ -147,13 +147,13 @@ public class ProductServiceImpl implements ProductService {
 			productVo.setTotalCommands((long) orderLines.size());
 			orderLines.forEach(orderLine -> {
 				Command command = orderLine.getCommand();
-				if (command.getOrderStatus().getLabel().equalsIgnoreCase("confirmed")) {
+				if (command.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("confirmed")) {
 					productVo.setTotalAmountConfirmed(productVo.getTotalAmountConfirmed() + 1);
 
-				} else if (command.getOrderStatus().getLabel().equalsIgnoreCase("closed")) {
+				} else if (command.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("delivered")) {
 					productVo.setTotalAmountDelivered(productVo.getTotalAmountDelivered() + 1);
 
-				} else if (command.getOrderStatus().getLabel().equalsIgnoreCase("returned")) {
+				} else if (command.getOrderStatus().getCode().equalsIgnoreCase("sendCanceled")) {
 					productVo.setTotalCommandsReturned(productVo.getTotalCommandsReturned() + 1);
 				}
 			});
