@@ -1,6 +1,7 @@
 package ma.zs.generated.service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -296,34 +297,41 @@ public class UserServiceImpl implements UserService {
 		if (ListUtil.isEmpty(commands)) {
 			return null;
 		}
-		System.out.println(commands);
 		List<UserVo> userVos = new ArrayList<>();
 		commands.stream().collect(Collectors.groupingBy(Command::getDelivery)).forEach((delivery, commandList) -> {
-			UserVo userVo = new UserVo("", new BigDecimal(0), new BigDecimal(0), 0, 0, 0, new BigDecimal(0),
-					new BigDecimal(0));
-			userVo.setDeliveryName(delivery.getLastName() + " " + delivery.getFirsttName());
-			commandList.forEach(command -> {
-				userVo.setTotalAmountCommand(userVo.getTotalAmountCommand().add(command.getTotal()));
+				UserVo userVo = new UserVo("", new BigDecimal(0), new BigDecimal(0), 0, 0, 0, new BigDecimal(0),
+						new BigDecimal(0));
+				userVo.setDeliveryName(delivery.getLastName() + " " + delivery.getFirsttName());
+				commandList.forEach(command -> {
+					userVo.setTotalAmountCommand(userVo.getTotalAmountCommand().add(command.getTotal()));
 
-				if (command.getOrderStatus().getLabel().equalsIgnoreCase("closed")) {
-					userVo.setTotalAmountCommandClosed(userVo.getTotalAmountCommandClosed().add(command.getTotal()));
-					userVo.setCommandsClosed(userVo.getCommandsClosed() + 1);
-				} else if (command.getOrderStatus().getLabel().equalsIgnoreCase("returned")) {
-					userVo.setCommandsReturned(userVo.getCommandsReturned() + 1);
-				} else if (command.getOrderStatus().getLabel().equalsIgnoreCase("processed")) {
-					userVo.setCommandProcessed(userVo.getCommandProcessed() + 1);
+					if (command.getOrderStatus().getCode().equalsIgnoreCase("paid")) {
+						userVo.setTotalAmountCommandClosed(userVo.getTotalAmountCommandClosed().add(command.getTotal()));
+						userVo.setCommandsClosed(userVo.getCommandsClosed() + 1);
+					}
+					if (command.getOrderStatus().getCode().equalsIgnoreCase("sendCanceled")) {
+						userVo.setCommandsReturned(userVo.getCommandsReturned() + 1);
+
+					}
+					if (command.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("delivered")) {
+						userVo.setCommandProcessed(userVo.getCommandProcessed() + 1);
+
+
+					}
+				});
+				if ((userVo.getCommandProcessed()) != 0) {
+					userVo.setPercentageReturned(((new BigDecimal(userVo.getCommandsReturned()))
+							.divide(new BigDecimal(userVo.getCommandProcessed()), 2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)));
+					userVo.setPercentageClosed(((new BigDecimal(userVo.getCommandsClosed()))
+							.divide(new BigDecimal(userVo.getCommandProcessed()), 2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)));
+
+
 				}
-			});
-			if ((userVo.getCommandProcessed()) != 0) {
-				userVo.setPercentageReturned(((new BigDecimal(userVo.getCommandsReturned()))
-						.divide(new BigDecimal(userVo.getCommandProcessed()))).multiply(new BigDecimal(100)));
-				userVo.setPercentageClosed(((new BigDecimal(userVo.getCommandsClosed()))
-						.divide(new BigDecimal(userVo.getCommandProcessed()))).multiply(new BigDecimal(100)));
 
-			}
+				userVos.add(userVo);
 
-			userVos.add(userVo);
 		});
+
 
 		return userVos;
 	}
