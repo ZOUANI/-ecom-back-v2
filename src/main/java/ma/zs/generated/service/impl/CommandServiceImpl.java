@@ -250,12 +250,12 @@ public class CommandServiceImpl implements CommandService {
             command.setValidator(null);
         }
         LocalDate localDate = DateUtil.fromDate(command.getOrderDate());
-        command.setDay(localDate.plusDays(1).getDayOfMonth());
-        command.setMonth(localDate.plusMonths(1).getMonthValue());
+        command.setDay(localDate.getDayOfMonth());
+        command.setMonth(localDate.getMonthValue());
         command.setYear(localDate.getYear());
         LocalDate localDate2 = DateUtil.fromDate(command.getRegulationDate());
-        command.setOrderDate(DateUtil.toDate(localDate.plusDays(1)));
-        command.setRegulationDate(DateUtil.toDate(localDate2.plusDays(1)));
+        command.setOrderDate(DateUtil.toDate(localDate));
+        command.setRegulationDate(DateUtil.toDate(localDate2));
         User admin = userService.findById(adminId);
         command.setAdmin(admin);
         Command savedCommand = commandDao.save(command);
@@ -436,9 +436,15 @@ public class CommandServiceImpl implements CommandService {
         if (orderDate == null) {
             orderDate = LocalDate.now();
         }
-        c.setDay(orderDate.getDayOfMonth());
-        c.setMonth(orderDate.getMonthValue());
-        c.setYear(orderDate.getYear());
+
+        LocalDate localDate = DateUtil.fromDate(c.getOrderDate());
+        c.setDay(localDate.getDayOfMonth());
+        c.setMonth(localDate.getMonthValue());
+        c.setYear(localDate.getYear());
+        LocalDate localDate2 = DateUtil.fromDate(c.getRegulationDate());
+        c.setOrderDate(DateUtil.toDate(localDate));
+        c.setRegulationDate(DateUtil.toDate(localDate2));
+
         Command savedCommand = commandDao.save(c);
 
         if (oLine.getProduct() != null) {
