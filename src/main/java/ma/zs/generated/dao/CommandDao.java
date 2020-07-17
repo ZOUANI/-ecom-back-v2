@@ -49,7 +49,7 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.day,c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.orderDate BETWEEN  :start AND :end group by c.orderDate")
        public List<CommandVo> findStatisticsTotalCommands(@Param("start") Date start, @Param("end") Date end);
 
-       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.day,c.month,COUNT(c.id),SUM(c.total)) FROM Command c where  c.orderStatus.superOrderStatus.code = :status and c.orderDate BETWEEN :start AND :end group by c.orderDate")
+       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.day,c.month,COUNT(c.id),SUM(c.total)) FROM Command c where  c.orderStatus.superOrderStatus.codeSuperStatus LIKE  %:status% and c.orderDate BETWEEN :start AND :end group by c.orderDate")
        public List<CommandVo> findStatisticsCommandsByStatus(@Param("start") Date start, @Param("end") Date end, @Param("status") String status);
 
 
