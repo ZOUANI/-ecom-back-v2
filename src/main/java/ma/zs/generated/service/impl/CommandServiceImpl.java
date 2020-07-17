@@ -770,6 +770,13 @@ public class CommandServiceImpl implements CommandService {
         return validatorCommands;
     }
 
+    @Override
+    public Command switchCommandResolution(String commandReference) {
+        Command command = findByReference(commandReference);
+        command.setCommentResolution(!command.getCommentResolution());
+        return commandDao.save(command);
+    }
+
     private Boolean checkCommandAccessRights(Command c, Long validatorId) {
         return c.getCommandeAccesses().isEmpty() || c.getCommandeAccesses().stream()
                 .filter(ca -> ca.getValidator().getId().equals(validatorId)).findFirst().orElse(null) != null;

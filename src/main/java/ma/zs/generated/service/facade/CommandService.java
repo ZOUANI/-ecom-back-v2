@@ -180,5 +180,7 @@ public interface CommandService {
 
     public List<Command> findCommandsNoBloquedOfValidator(Long validatorId);
 
+    public Command switchCommandResolution(String commandReference);
+
 
 }
