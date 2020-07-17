@@ -36,6 +36,7 @@ public class CommentRest {
     @PostMapping("/")
     public CommentVo save(@RequestBody CommentVo commentVo) {
         commandConverter.init(true);
+        commentConverter.init(true);
         commandConverter.setComments(false);
         Comment comment = commentConverter.toItem(commentVo);
         comment = commentService.save(comment);

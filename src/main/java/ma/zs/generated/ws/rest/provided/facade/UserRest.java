@@ -200,6 +200,7 @@ public class UserRest {
 	@ApiOperation("statistics  delivery between by period")
 	@GetMapping("/period/{period}")
 	public List<UserVo> findStatisticsDeliveryByPeriod(@PathVariable String period) {
+		System.out.println("haaa period : " + period);
 		return userService.findStatisticsDelivery(
 				new Date(new Date().getTime() -  Integer.parseInt(period) * 24 * 3600 * 1000l),
 				new Date());

@@ -318,6 +318,11 @@ public class CommandRest {
 		 return commandConverter.toVo(commandService.findCommandsNoBloquedOfValidator(validatorId));
 	}
 
+	@PutMapping("/switchResolution/command/{reference}")
+	public CommandVo switchResolution(@PathVariable String reference){
+		return commandConverter.toVo(commandService.switchCommandResolution(reference));
+	}
+
 
 
 

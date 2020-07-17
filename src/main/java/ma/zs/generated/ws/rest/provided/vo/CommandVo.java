@@ -66,6 +66,10 @@ public class CommandVo {
     private BigDecimal TotalCommandsDelivred;
     private BigDecimal TotalCommandsPaid;
 
+    private String nbrTotalComment;
+    private String commentResolution;
+    private String dateCommentResolution;
+
  public CommandVo(){
        super();
      }
@@ -492,6 +496,27 @@ public class CommandVo {
           this.commandeAccessesVo = commandeAccessesVo;
      }
 
+    public String getNbrTotalComment() {
+        return nbrTotalComment;
+    }
 
+    public void setNbrTotalComment(String nbrTotalComment) {
+        this.nbrTotalComment = nbrTotalComment;
+    }
 
+    public String getCommentResolution() {
+        return commentResolution;
+    }
+
+    public void setCommentResolution(String commentResolution) {
+        this.commentResolution = commentResolution;
+    }
+
+    public String getDateCommentResolution() {
+        return dateCommentResolution;
+    }
+
+    public void setDateCommentResolution(String dateCommentResolution) {
+        this.dateCommentResolution = dateCommentResolution;
+    }
 }

@@ -10,17 +10,27 @@ public class SuperOrderStatusVo {
      private String label ;
    
      private String id ;
-   
+
+    private String codeSuperStatus;
 
 
 
 
- public SuperOrderStatusVo(){
+
+
+    public SuperOrderStatusVo(){
        super();
      }
 
+    public String getCodeSuperStatus() {
+        return codeSuperStatus;
+    }
 
-     public String getCode(){
+    public void setCodeSuperStatus(String codeSuperStatus) {
+        this.codeSuperStatus = codeSuperStatus;
+    }
+
+    public String getCode(){
           return this.code;
      }
       public void setCode(String code){

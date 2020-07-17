@@ -58,6 +58,7 @@ public class CommentConverter extends AbstractConverter<Comment, CommentVo> {
 
             if (item.getId() != null)
                 vo.setId(NumberUtil.toString(item.getId()));
+
             if (item.getCommand() != null && this.command) {
                 vo.setCommandVo(commandConverter.toVo(item.getCommand()));
             }
