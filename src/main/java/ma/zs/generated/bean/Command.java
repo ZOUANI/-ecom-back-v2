@@ -60,6 +60,12 @@ public class Command {
      private List<Comment> comments ;
      @OneToMany(mappedBy = "command")
      private List<CommandeAccess> commandeAccesses ;
+    private int nbrTotalComment = 0;
+    private Boolean commentResolution = false;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date dateCommentResolution;
+
 
      public Command(){
        super();
@@ -193,7 +199,28 @@ public class Command {
           this.comments = comments;
      }
 
+    public int getNbrTotalComment() {
+        return nbrTotalComment;
+    }
 
+    public void setNbrTotalComment(int nbrTotalComment) {
+        this.nbrTotalComment = nbrTotalComment;
+    }
 
+    public Boolean getCommentResolution() {
+        return commentResolution;
+    }
+
+    public void setCommentResolution(Boolean commentResolution) {
+        this.commentResolution = commentResolution;
+    }
+
+    public Date getDateCommentResolution() {
+        return dateCommentResolution;
+    }
+
+    public void setDateCommentResolution(Date dateCommentResolution) {
+        this.dateCommentResolution = dateCommentResolution;
+    }
 }
 
