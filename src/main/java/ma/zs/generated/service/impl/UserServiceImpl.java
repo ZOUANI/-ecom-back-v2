@@ -309,7 +309,7 @@ public class UserServiceImpl implements UserService {
 						userVo.setTotalAmountCommandClosed(userVo.getTotalAmountCommandClosed().add(command.getTotal()));
 						userVo.setCommandsClosed(userVo.getCommandsClosed() + 1);
 					}
-					if (command.getOrderStatus().getCode().equalsIgnoreCase("sendCanceled")) {
+					if (command.getOrderStatus().getCode().equalsIgnoreCase("notPaid")) {
 						userVo.setCommandsReturned(userVo.getCommandsReturned() + 1);
 
 					}

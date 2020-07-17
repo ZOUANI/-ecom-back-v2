@@ -25,6 +25,8 @@ public class SuperOrderStatusConverter extends AbstractConverter<SuperOrderStatu
       	SuperOrderStatus item = new SuperOrderStatus();
 			 if(StringUtil.isNotEmpty(vo.getCode()))
                   item.setCode(vo.getCode());
+		if(StringUtil.isNotEmpty(vo.getCodeSuperStatus()))
+			item.setCodeSuperStatus(vo.getCodeSuperStatus());
 			 if(StringUtil.isNotEmpty(vo.getColor()))
                   item.setColor(vo.getColor());
 			 if(StringUtil.isNotEmpty(vo.getLabel()))
@@ -46,7 +48,10 @@ public class SuperOrderStatusConverter extends AbstractConverter<SuperOrderStatu
 
 			if(StringUtil.isNotEmpty(item.getCode()))
 				vo.setCode(item.getCode());
-			
+
+			if(StringUtil.isNotEmpty(item.getCodeSuperStatus()))
+				vo.setCodeSuperStatus(item.getCodeSuperStatus());
+
 			if(StringUtil.isNotEmpty(item.getColor()))
 				vo.setColor(item.getColor());
 			
