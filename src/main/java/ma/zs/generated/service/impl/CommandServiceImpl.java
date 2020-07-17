@@ -404,12 +404,16 @@ public class CommandServiceImpl implements CommandService {
         }
 
         if (c.getClient() != null) {
-            Client client = clientService.findByFirstNameAndLastNameAndPhoneNumber(c.getClient().getFirstName(),
-                    c.getClient().getLastName(), c.getClient().getPhoneNumber());
+            Client client = clientService.findByPhoneNumber(c.getClient().getPhoneNumber());
+            if (c.getClient().getPhoneNumber().startsWith("212"))
+                c.getClient().setPhoneNumber(c.getClient().getPhoneNumber().replaceFirst("212", "0"));
+            if (c.getClient().getPhoneNumber().startsWith("+212"))
+                c.getClient().setPhoneNumber(c.getClient().getPhoneNumber().replaceFirst("//+212", "0"));
             if (client == null)
                 c.setClient(clientService.savePlainClient(c.getClient()));
             else
                 c.setClient(client);
+
         }
 
         if (c.getValidator() != null) {
@@ -604,7 +608,6 @@ public class CommandServiceImpl implements CommandService {
             }
 
 
-
         }
         return commandVo;
     }
@@ -627,9 +630,11 @@ public class CommandServiceImpl implements CommandService {
 
             if (command.getOrderStatus().getSuperOrderStatus().getCodeSuperStatus().contains("confirmed")) {
                 commandVo.setTotalCommandsConfirmed(commandVo.getTotalCommandsConfirmed().add(command.getTotal()));
-            } if (command.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("delivered")) {
+            }
+            if (command.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("delivered")) {
                 commandVo.setTotalCommandsDelivred(commandVo.getTotalCommandsDelivred().add(command.getTotal()));
-            } if (command.getOrderStatus().getCode().equalsIgnoreCase("paid")) {
+            }
+            if (command.getOrderStatus().getCode().equalsIgnoreCase("paid")) {
                 commandVo.setTotalCommandsPaid(commandVo.getTotalCommandsPaid().add(command.getTotal()));
             }
 
@@ -660,7 +665,8 @@ public class CommandServiceImpl implements CommandService {
             String date2 = formatter.format(new Date());
             if (command1.getOrderStatus().getSuperOrderStatus().getCodeSuperStatus().contains("confirmed") && date1.equals(date2)) {
                 commandVo.setTotalConfirmedCurrentDay(commandVo.getTotalConfirmedCurrentDay().add(command1.getTotal()));
-            } if (command1.getOrderStatus().getCode().equalsIgnoreCase("paid") && date1.equals(date2)) {
+            }
+            if (command1.getOrderStatus().getCode().equalsIgnoreCase("paid") && date1.equals(date2)) {
                 commandVo.setTotalClosedCurrentDay(commandVo.getTotalClosedCurrentDay().add(command1.getTotal()));
             }
             if (command1.getOrderStatus().getSuperOrderStatus().getCodeSuperStatus().contains("confirmed")) {
@@ -761,7 +767,7 @@ public class CommandServiceImpl implements CommandService {
             // validatorId));
             List<Command> permittedCommands = findByAdminIdAndValidatorIsNullAndDeliveryIsNull(
                     validator.getSuperAdmin().getId()).stream().filter(c -> checkCommandAccessRights(c, validatorId))
-                            .collect(Collectors.toList());
+                    .collect(Collectors.toList());
             validatorCommands.addAll(permittedCommands);
         }
 

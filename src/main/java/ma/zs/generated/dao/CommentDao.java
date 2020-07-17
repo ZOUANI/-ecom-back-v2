@@ -11,7 +11,7 @@ import ma.zs.generated.bean.Comment;
 public interface CommentDao extends JpaRepository<Comment,Long> {
 
 
-       List<Comment> findByCommandReference(String reference);
+       List<Comment> findByCommandReferenceOrderByDateCommentAsc(String reference);
        int deleteByCommandReference(String reference);       
        List<Comment> findByCommandId(Long id);
        int deleteByCommandId(Long id);
