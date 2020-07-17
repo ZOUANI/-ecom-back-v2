@@ -77,8 +77,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override	
 	public Comment save (Comment comment){
 		if (comment.getCommand() == null || comment.getUser() == null){
-			System.out.println(comment.getCommand());
-			System.out.println(comment.getUser());
 			return null;
 		}else {
 			Command command = commandService.findByReference(comment.getCommand().getReference());
@@ -86,6 +84,7 @@ public class CommentServiceImpl implements CommentService {
 			comment.setCommand(command);
 			comment.setUser(user);
 			comment.setDateComment(new Date());
+			command.setNbrTotalComment(command.getNbrTotalComment()+1);
 			return commentDao.save(comment);
 		}
 	}

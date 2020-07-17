@@ -175,6 +175,10 @@ public class CommandConverter extends AbstractConverter<Command, CommandVo> {
 			if (item.getDateCommentResolution() != null)
 				vo.setDateCommentResolution(DateUtil.formateDate(item.getDateCommentResolution()));
 
+			if (true ){
+			    vo.setNbrTotalComment(NumberUtil.toString(item.getNbrTotalComment()));
+            }
+
             return vo;
 
         }
