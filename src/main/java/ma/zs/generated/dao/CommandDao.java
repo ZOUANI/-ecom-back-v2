@@ -73,7 +73,7 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.delivery.id = :id and c.year = :year and c.orderStatus.label = 'closed' group by c.month order by c.month")
        public List<CommandVo> deliveryChartByCurrentYear(@Param("id") Long id,@Param("year") int year);
 
-       public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId);
+       public List<Command> findByAdminIdAndValidatorIsNull(Long adminId);
 
 
 
