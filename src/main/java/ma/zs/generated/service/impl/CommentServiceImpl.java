@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
 	}	
 	@Override
 	public List<Comment> findByCommandReference(String reference){
-		return commentDao.findByCommandReference(reference);
+		return commentDao.findByCommandReferenceOrderByDateCommentAsc(reference);
 	}
 	@Override
 	@Transactional
