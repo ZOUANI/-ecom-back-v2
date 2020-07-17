@@ -9,45 +9,58 @@ import javax.persistence.GenerationType;
 @Entity
 public class SuperOrderStatus {
 
-     @Id
-     @GeneratedValue(strategy = GenerationType.AUTO)
-     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-     private String code ;
-     private String color ;
-     private String label ;
-
-
-     public SuperOrderStatus(){
-       super();
-     }
-
-     public Long getId(){
-          return this.id;
-     }
-     public void setId(Long id){
-          this.id = id;
-     }
-     public String getLabel(){
-          return this.label;
-     }
-     public void setLabel(String label){
-          this.label = label;
-     }
-     public String getCode(){
-          return this.code;
-     }
-     public void setCode(String code){
-          this.code = code;
-     }
-     public String getColor(){
-          return this.color;
-     }
-     public void setColor(String color){
-          this.color = color;
-     }
+    private String code;
+    private String color;
+    private String label;
+    private String codeSuperStatus; //livre,confirme
 
 
+    public SuperOrderStatus() {
+        super();
+    }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return this.label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getCodeSuperStatus() {
+        return codeSuperStatus;
+    }
+
+    public void setCodeSuperStatus(String codeSuperStatus) {
+        this.codeSuperStatus = codeSuperStatus;
+    }
 }
 
