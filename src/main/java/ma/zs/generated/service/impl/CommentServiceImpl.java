@@ -12,131 +12,141 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.stereotype.Service;
+
 import javax.persistence.EntityManager;
+
 import ma.zs.generated.bean.Comment;
 import ma.zs.generated.bean.Command;
 import ma.zs.generated.dao.CommentDao;
 import ma.zs.generated.service.facade.CommentService;
-import ma.zs.generated.service.facade.CommandService;   
+import ma.zs.generated.service.facade.CommandService;
 
 import ma.zs.generated.ws.rest.provided.vo.CommentVo;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
-   @Autowired
-   private CommentDao commentDao;
-   @Autowired
-   private CommandDao commandDao;
-   @Autowired
-	UserDao userDao;
-   
     @Autowired
-    private CommandService commandService ;
+    private CommentDao commentDao;
+    @Autowired
+    private CommandDao commandDao;
+    @Autowired
+    UserDao userDao;
 
-   @Autowired 
-   private EntityManager entityManager; 
+    @Autowired
+    private CommandService commandService;
 
-	@Override
-	public List<Comment> findAll(){
-		return commentDao.findAll();
-	}	
-	@Override
-	public List<Comment> findByCommandReference(String reference){
-		return commentDao.findByCommandReferenceOrderByDateCommentAsc(reference);
-	}
-	@Override
-	@Transactional
-    public int deleteByCommandReference(String reference){
-		return commentDao.deleteByCommandReference(reference);
-	}
-	
-     @Override
-    public List<Comment> findByCommandId(Long id){
-		return commentDao.findByCommandId(id);
-
-	}
-	   @Override
-	   @Transactional
-    public int deleteByCommandId(Long id){
-		return commentDao.deleteByCommandId(id);
-
-	}
-     		
-
-	@Override
-	public Comment findById(Long id){
-		 if(id==null)
-		  return null;
-		return commentDao.getOne(id);
-	}
-    
-	@Transactional
-   public void deleteById(Long id){
-           commentDao.deleteById(id);
-   }
-	@Override	
-	public Comment save (Comment comment){
-		if (comment.getCommand() == null || comment.getUser() == null){
-			return null;
-		}else {
-			Command command = commandService.findByReference(comment.getCommand().getReference());
-			User user = userDao.getOne(comment.getUser().getId());
-			comment.setCommand(command);
-			comment.setUser(user);
-			comment.setDateComment(new Date());
-			command.setNbrTotalComment(command.getNbrTotalComment()+1);
-			return commentDao.save(comment);
-		}
-	}
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
-    public List<Comment> save(List<Comment> comments){
-		List<Comment> list = new ArrayList<Comment>();
-		for(Comment comment: comments){
-		        list.add(save(comment));	
-		}
-		return list;
-	}
+    public List<Comment> findAll() {
+        return commentDao.findAll();
+    }
+
+    @Override
+    public List<Comment> findByCommandReference(String reference) {
+        return commentDao.findByCommandReferenceOrderByDateCommentAsc(reference);
+    }
+
+    @Override
+    @Transactional
+    public int deleteByCommandReference(String reference) {
+        return commentDao.deleteByCommandReference(reference);
+    }
+
+    @Override
+    public List<Comment> findByCommandId(Long id) {
+        return commentDao.findByCommandId(id);
+
+    }
+
+    @Override
+    @Transactional
+    public int deleteByCommandId(Long id) {
+        return commentDao.deleteByCommandId(id);
+
+    }
 
 
-   @Override
-   public Comment update(Comment comment){
-     
-    
-		  Comment foundedComment = findById(comment.getId()); 
-		       if(foundedComment==null)
-	          return null;	  
-	  
-	   return  commentDao.save(comment);
-     
-     }
-    
-	@Override
-	@Transactional
-	public int delete(Comment comment){
+    @Override
+    public Comment findById(Long id) {
+        if (id == null)
+            return null;
+        return commentDao.getOne(id);
+    }
 
-		 if(comment.getId()==null)
-			  return -1;
-		  Comment foundedComment = findById(comment.getId()); 
-		       if(foundedComment==null)
-	          return -1;	  
-	   commentDao.delete(foundedComment);
-	   return 1;
-	}
+    @Transactional
+    public void deleteById(Long id) {
+        Command command = commentDao.getOne(id).getCommand();
+        command.setNbrTotalComment(command.getNbrTotalComment() - 1);
+        commandDao.save(command);
+        commentDao.deleteById(id);
+    }
+
+    @Override
+    public Comment save(Comment comment) {
+        if (comment.getCommand() == null || comment.getUser() == null) {
+            return null;
+        } else {
+            Command command = commandService.findByReference(comment.getCommand().getReference());
+            User user = userDao.getOne(comment.getUser().getId());
+            comment.setCommand(command);
+            comment.setUser(user);
+            comment.setDateComment(new Date());
+            command.setNbrTotalComment(command.getNbrTotalComment() + 1);
+            return commentDao.save(comment);
+        }
+    }
+
+    @Override
+    public List<Comment> save(List<Comment> comments) {
+        List<Comment> list = new ArrayList<Comment>();
+        for (Comment comment : comments) {
+            list.add(save(comment));
+        }
+        return list;
+    }
 
 
-	public List<Comment> findByCriteria(CommentVo commentVo){
-      String query = "SELECT o FROM Comment o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "message","LIKE",commentVo.getMessage());
+    @Override
+    public Comment update(Comment comment) {
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",commentVo.getId());
-   if(commentVo.getCommandVo()!=null){
-     query += SearchUtil.addConstraint( "o", "command.id","=",commentVo.getCommandVo().getId());
-     query += SearchUtil.addConstraint( "o", "command.reference","LIKE",commentVo.getCommandVo().getReference());
-   }
-   
-	 return entityManager.createQuery(query).getResultList();
-	}
-	
- 
+
+        Comment foundedComment = findById(comment.getId());
+        if (foundedComment == null)
+            return null;
+
+        return commentDao.save(comment);
+
+    }
+
+    @Override
+    @Transactional
+    public int delete(Comment comment) {
+
+        if (comment.getId() == null)
+            return -1;
+        Comment foundedComment = findById(comment.getId());
+        if (foundedComment == null)
+            return -1;
+        commentDao.delete(foundedComment);
+        return 1;
+    }
+
+
+    public List<Comment> findByCriteria(CommentVo commentVo) {
+        String query = "SELECT o FROM Comment o where 1=1 ";
+        query += SearchUtil.addConstraint("o", "message", "LIKE", commentVo.getMessage());
+
+        query += SearchUtil.addConstraint("o", "id", "=", commentVo.getId());
+        if (commentVo.getCommandVo() != null) {
+            query += SearchUtil.addConstraint("o", "command.id", "=", commentVo.getCommandVo().getId());
+            query += SearchUtil.addConstraint("o", "command.reference", "LIKE", commentVo.getCommandVo().getReference());
+        }
+
+        return entityManager.createQuery(query).getResultList();
+    }
+
+
 }
