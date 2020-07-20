@@ -174,7 +174,7 @@ public interface CommandService {
 
     public void calculTotal(Command command, List<OrderLine> orderLines);
 
-    public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId);
+    public List<Command> findByAdminIdAndValidatorIsNull(Long adminId);
 
     public Command assignment(Long commandId, Long validatorId, Long deliveryId);
 

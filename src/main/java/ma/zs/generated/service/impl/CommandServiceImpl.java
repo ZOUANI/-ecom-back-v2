@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 
+import ma.zs.generated.service.facade.*;
 import ma.zs.generated.util.DateUtil;
 import ma.zs.generated.util.ListUtil;
 import ma.zs.generated.util.NumberUtil;
@@ -29,13 +30,6 @@ import ma.zs.generated.bean.Product;
 import ma.zs.generated.bean.Role;
 import ma.zs.generated.bean.User;
 import ma.zs.generated.dao.CommandDao;
-import ma.zs.generated.service.facade.CityService;
-import ma.zs.generated.service.facade.ClientService;
-import ma.zs.generated.service.facade.CommandService;
-import ma.zs.generated.service.facade.OrderLineService;
-import ma.zs.generated.service.facade.OrderStatusService;
-import ma.zs.generated.service.facade.ProductService;
-import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.CommandVo;
 
 @Service
@@ -43,7 +37,8 @@ public class CommandServiceImpl implements CommandService {
 
     @Autowired
     private CommandDao commandDao;
-
+    @Autowired
+    private CommandeAccessService commandeAccessService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -752,8 +747,8 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public List<Command> findByAdminIdAndValidatorIsNullAndDeliveryIsNull(Long adminId) {
-        return commandDao.findByAdminIdAndValidatorIsNullAndDeliveryIsNull(adminId);
+    public List<Command> findByAdminIdAndValidatorIsNull(Long adminId) {
+        return commandDao.findByAdminIdAndValidatorIsNull(adminId);
     }
 
     @Override
@@ -768,17 +763,17 @@ public class CommandServiceImpl implements CommandService {
     public List<Command> findCommandsNoBloquedOfValidator(Long validatorId) {
         List<Command> validatorCommands = findCommandsOfValidator(validatorId);
         User validator = userService.findById(validatorId);
-        if (validator.isEnabledNewCommand().equals(true)) {
-            // validatorCommands.addAll(commandDao.findByAdminIdAndValidatorId(validator.getSuperAdmin().getId(),
-            // validatorId));
-            List<Command> permittedCommands = findByAdminIdAndValidatorIsNullAndDeliveryIsNull(
-                    validator.getSuperAdmin().getId()).stream().filter(c -> checkCommandAccessRights(c, validatorId))
-                    .collect(Collectors.toList());
-            validatorCommands.addAll(permittedCommands);
-        }
+        //if (validator.isEnabledNewCommand().equals(true)) {
+        // validatorCommands.addAll(commandDao.findByAdminIdAndValidatorId(validator.getSuperAdmin().getId(),
+        // validatorId));
+        List<Command> permittedCommands = findByAdminIdAndValidatorIsNull(validator.getSuperAdmin().getId())
+                .stream().filter(c -> checkCommandAccessRights(c, validatorId))
+                .collect(Collectors.toList());
+        validatorCommands.addAll(permittedCommands);
+        // }
 
         // List<Command> commands = commandDao.findValidatorCommands(validatorId);
-        System.out.println(validatorCommands.size());
+        System.out.println(validatorCommands);
         return validatorCommands;
     }
 
@@ -790,7 +785,8 @@ public class CommandServiceImpl implements CommandService {
     }
 
     private Boolean checkCommandAccessRights(Command c, Long validatorId) {
-        return c.getCommandeAccesses().isEmpty() || c.getCommandeAccesses().stream()
+        c.setCommandeAccesses(commandeAccessService.findByCommandId(c.getId()));
+        return c.getCommandeAccesses() == null || c.getCommandeAccesses().isEmpty() || c.getCommandeAccesses().stream()
                 .filter(ca -> ca.getValidator().getId().equals(validatorId)).findFirst().orElse(null) != null;
     }
 

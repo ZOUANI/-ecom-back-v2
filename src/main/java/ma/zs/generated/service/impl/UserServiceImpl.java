@@ -2,9 +2,14 @@ package ma.zs.generated.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -292,7 +297,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserVo> findStatisticsDelivery(Date start, Date end) {
-
+		System.out.println(start);
+		System.out.println(end);
 		List<Command> commands = commandService.findAllCommandsBetween(start, end);
 		if (ListUtil.isEmpty(commands)) {
 			return null;
@@ -391,6 +397,60 @@ public class UserServiceImpl implements UserService {
 			userDao.save(validator);
 		}
 		return validator;
+	}
+
+	@Override
+	public List<UserVo> findStatisticsDeliveryByPeriod(String period) {
+
+		if (period.equals("TODAY")) {
+			return findStatisticsDelivery(new Date(), new Date());
+		} else if (period.equals("YESTERDAY")) {
+			return findStatisticsDelivery(
+					new Date(new Date().getTime() - 1 * 24 * 3600 * 1000l),
+					new Date(new Date().getTime() - 1 * 24 * 3600 * 1000l)
+			);
+		} else if (period.equals("LAST_7_DAYS")) {
+			return findStatisticsDelivery(
+					new Date(new Date().getTime() - 7 * 24 * 3600 * 1000l),
+					new Date()
+			);
+		} else if (period.equals("LAST_14_DAYS")) {
+			return findStatisticsDelivery(
+					new Date(new Date().getTime() - 14 * 24 * 3600 * 1000l),
+					new Date()
+			);
+		} else if (period.equals("LAST_30_DAYS")) {
+			return findStatisticsDelivery(
+					new Date(new Date().getTime() - 30 * 24 * 3600 * 1000l),
+					new Date()
+			);
+		} else if (period.equals("THIS_WEEK")) {
+			LocalDate now = LocalDate.now();
+			TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
+			LocalDate ld = now.with(fieldISO,1);
+			Date date = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+			return findStatisticsDelivery(
+					date,
+					new Date()
+			);
+		} else if (period.equals("THIS_MONTH")) {
+			LocalDate now = LocalDate.now();
+			LocalDate ld = now.withDayOfMonth(1);
+			Date date = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			return findStatisticsDelivery(
+					date,
+					new Date()
+			);
+		}
+//        else if (period.equals("LAST_WEEK")) {
+//            return null;
+//        } else if (period.equals("LAST_MONTH")) {
+//            return null;
+//        }
+		else {
+			return null;
+		}
 	}
 
 }
