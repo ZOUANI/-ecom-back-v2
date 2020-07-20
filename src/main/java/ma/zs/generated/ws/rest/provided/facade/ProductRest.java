@@ -1,8 +1,13 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -105,16 +110,16 @@ public class ProductRest {
     @GetMapping("/statistics/startDate/{start}/endDate/{end}")
     public List<ProductVo> findProductStatistics(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
                                                  @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end) {
-        return productService.findProductStatistics(start, end);
+        return productService.findProductStatistics(
+               new Date(start.getTime() + 1 * 24 * 3600 * 1000l) ,
+                new Date(end.getTime() + 1 * 24 * 3600 * 1000l)
+        );
     }
 
     @ApiOperation("Search product statistics in period updated")
     @GetMapping("/statistics/period/{period}")
     public List<ProductVo> findProductStatisticsByPeriod(@PathVariable String period) {
-        return productService.findProductStatistics(
-        		new Date(new Date().getTime() -  Integer.parseInt(period) * 24 * 3600 * 1000l),
-				new Date()
-		);
+        return productService.findProductStatisticsByPeriod(period);
     }
 
 
