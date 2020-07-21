@@ -193,17 +193,17 @@ public class UserRest {
 	@GetMapping("/startDate/{start}/endDate/{end}")
 	public List<UserVo> findStatisticsDelivery(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
 											   @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end) {
-		return userService.findStatisticsDelivery(start, end);
+		return userService.findStatisticsDelivery(
+				new Date(start.getTime() + 1 * 24 * 3600 * 1000l),
+				new Date(end.getTime() + 1 * 24 * 3600 * 1000l)
+		);
 
 	}
 
 	@ApiOperation("statistics  delivery between by period")
 	@GetMapping("/period/{period}")
 	public List<UserVo> findStatisticsDeliveryByPeriod(@PathVariable String period) {
-		System.out.println("haaa period : " + period);
-		return userService.findStatisticsDelivery(
-				new Date(new Date().getTime() -  Integer.parseInt(period) * 24 * 3600 * 1000l),
-				new Date());
+		return userService.findStatisticsDeliveryByPeriod(period);
 
 	}
 

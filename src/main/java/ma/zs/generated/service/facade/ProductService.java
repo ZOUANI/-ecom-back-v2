@@ -111,4 +111,7 @@ public interface ProductService {
 	 * @return the saved Product
 	 */
 	Product savePlainProduct(Product product);
+	public List<ProductVo> findProductStatisticsByPeriod(String period);
+
+
 }
