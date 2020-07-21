@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product save(Product product) {
 
-        Product foundedProduct = findByReference(product.getReference());
+        Product foundedProduct = findByLabel(product.getLabel());
         if (foundedProduct != null)
             return null;
 
@@ -217,7 +217,7 @@ public class ProductServiceImpl implements ProductService {
         } else if (period.equals("THIS_WEEK")) {
             LocalDate now = LocalDate.now();
             TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
-            LocalDate ld = now.with(fieldISO,1);
+            LocalDate ld = now.with(fieldISO, 1);
             Date date = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             return findProductStatistics(
