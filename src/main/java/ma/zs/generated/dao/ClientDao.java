@@ -13,19 +13,25 @@ import ma.zs.generated.bean.Client;
 
 
 @Repository
-public interface ClientDao extends JpaRepository<Client,Long> {
+public interface ClientDao extends JpaRepository<Client, Long> {
 
 
-       List<Client> findByCityName(String name);
-       int deleteByCityName(String name);       
-       List<Client> findByCityId(Long id);
-       int deleteByCityId(Long id);
+    List<Client> findByCityName(String name);
 
-       @Query("select new ma.zs.generated.ws.rest.provided.vo.ClientVo( c.client.lastName, count (c.id), sum(c.total)) from Command c  where c.orderDate BETWEEN :start AND :end group by c.client order by count (c.client) DESC,sum(c.total) DESC")
-       public List<ClientVo> findTopfiveClient(@Param("start") Date start, @Param("end") Date end);
+    int deleteByCityName(String name);
 
-       Client findByFirstNameAndLastNameAndPhoneNumber(String firstName, String lastName, String phoneNumber);
+    List<Client> findByCityId(Long id);
 
-       public Client findByFirstNameAndLastName(String firstName, String lastName);
+    int deleteByCityId(Long id);
+
+    @Query("select new ma.zs.generated.ws.rest.provided.vo.ClientVo( c.client.lastName, count (c.id), sum(c.total)) from Command c  where c.orderDate BETWEEN :start AND :end group by c.client order by count (c.client) DESC,sum(c.total) DESC")
+    public List<ClientVo> findTopfiveClient(@Param("start") Date start, @Param("end") Date end);
+
+    Client findByFirstNameAndLastNameAndPhoneNumber(String firstName, String lastName, String phoneNumber);
+
+    Client findByPhoneNumber(String phoneNumber);
+
+
+    public Client findByFirstNameAndLastName(String firstName, String lastName);
 
 }

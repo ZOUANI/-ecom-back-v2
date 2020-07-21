@@ -41,7 +41,7 @@ public class OrderLineConverter extends AbstractConverter<OrderLine, OrderLineVo
                 item.setId(NumberUtil.toLong(vo.getId()));
             if (vo.getCommandVo() != null && this.command)
                 item.setCommand(commandConverter.toItem(vo.getCommandVo()));
-            if (vo.getProductVo() != null && this.product)
+            if (vo.getProductVo() != null )
                 item.setProduct(productConverter.toItem(vo.getProductVo()));
 
 
@@ -69,7 +69,7 @@ public class OrderLineConverter extends AbstractConverter<OrderLine, OrderLineVo
             if (item.getCommand() != null && this.command) {
                 vo.setCommandVo(commandConverter.toVo(item.getCommand()));
             }
-            if (item.getProduct() != null && this.product) {
+            if (item.getProduct() != null ) {
                 vo.setProductVo(productConverter.toVo(item.getProduct()));
             }
 
