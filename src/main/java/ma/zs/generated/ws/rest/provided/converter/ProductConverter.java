@@ -74,7 +74,7 @@ public class ProductConverter extends AbstractConverter<Product,ProductVo>{
 	         if(ListUtil.isNotEmpty(item.getOrderLines()) && this.orderLines){
 				
 				 orderLineConverter.init(false);
-                vo.setOrderLinesVo(orderLineConverter.toVo(item.getOrderLines()));
+                //vo.setOrderLinesVo(orderLineConverter.toVo(item.getOrderLines()));
               	 orderLineConverter.init(true);
 			 }
 

@@ -97,11 +97,8 @@ public class ClientServiceImpl implements ClientService {
                 client.setCity(city);
         }
 
-//	    Client savedClient = clientDao.save(client);
-//               if(ListUtil.isNotEmpty(client.getCommands())){
-//		  savedClient.setCommands(commandService.save(prepareCommands(savedClient,client.getCommands())));
-//		 }
-        return null;
+	    Client savedClient = clientDao.save(client);
+        return client;
     }
 
     @Override

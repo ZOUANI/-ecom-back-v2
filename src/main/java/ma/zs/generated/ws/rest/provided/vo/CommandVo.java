@@ -23,13 +23,14 @@ public class CommandVo {
 
 	private UserVo validatorVo ;
 	private UserVo deliveryVo ;
-	private DeliveryCostVo deliveryCostVo ;
 	private OrderStatusVo orderStatusVo ;
 	private CityVo cityVo ;
 	private UserVo adminVo ;
 	private ClientVo clientVo ;
+    private String commandShippingCost;
 
-     private List<OrderLineVo> orderLinesVo ;
+
+    private List<OrderLineVo> orderLinesVo ;
      private List<CommentVo> commentsVo ;
      private List<CommandeAccessVo> commandeAccessesVo ;
 
@@ -131,11 +132,11 @@ public class CommandVo {
         this.totalInDay = totalInDay;
     }
 
-    public CommandVo(BigDecimal totalClosedCurrentDay, Long closedCommands, BigDecimal totalClosedCommands, Long processedCommand) {
+    public CommandVo(BigDecimal totalClosedCurrentDay, Long closedCommands, BigDecimal totalClosedCommands, Long returnedCommands) {
         this.totalClosedCurrentDay = totalClosedCurrentDay;
         this.closedCommands = closedCommands;
         this.totalClosedCommands = totalClosedCommands;
-        this.processedCommand = processedCommand;
+        this.returnedCommands = returnedCommands;
     }
 
      public String getRemarque(){
@@ -377,10 +378,16 @@ public class CommandVo {
      public void setTotalMin(String totalMin){
           this.totalMin = totalMin;
      }
-     
-     
 
-      public String getOrderDateMax(){
+    public String getCommandShippingCost() {
+        return commandShippingCost;
+    }
+
+    public void setCommandShippingCost(String commandShippingCost) {
+        this.commandShippingCost = commandShippingCost;
+    }
+
+    public String getOrderDateMax(){
           return this.orderDateMax;
      }
      
@@ -433,13 +440,7 @@ public class CommandVo {
           this.deliveryVo = deliveryVo;
      }
    
-      public DeliveryCostVo getDeliveryCostVo(){
-          return this.deliveryCostVo;
-     }
-       
-     public void setDeliveryCostVo(DeliveryCostVo deliveryCostVo){
-          this.deliveryCostVo = deliveryCostVo;
-     }
+
    
       public OrderStatusVo getOrderStatusVo(){
           return this.orderStatusVo;

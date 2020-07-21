@@ -4,6 +4,7 @@ import ma.zs.generated.bean.Command;
 import ma.zs.generated.bean.OrderLine;
 import ma.zs.generated.bean.User;
 import ma.zs.generated.ws.rest.provided.vo.CommandVo;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,6 @@ public interface CommandService {
 
     // int deleteByAdminId(Long id);
 
-    List<Command> findByDeliveryCode(String code);
 
     int deleteByDeliveryCode(String code);
 
@@ -149,7 +149,7 @@ public interface CommandService {
 
     public CommandVo dashboardCommands();
 
-    public List<CommandVo> findStatisticsTotalCommandsByCurrentYear();
+    public List<CommandVo> findStatisticsTotalCommandsByCurrentYear(Long idUser);
 
     public CommandVo findStatisticsTotalCommandAmount(Date start, Date end);
 
@@ -157,13 +157,17 @@ public interface CommandService {
 
     public List<User> findDeliveryOfValidator(Long id);
 
-    public CommandVo validatorDashboard(Long id);
+
 
     public List<CommandVo> validatorChartByCurrentYear(Long id);
 
     public List<Command> findCommandByDeliveryId(Long id);
 
     public CommandVo deliveryDashboard(Long id);
+    public CommandVo validatorDashboard(Long id);
+    public CommandVo adminDashboard(Long id);
+    public List<Command> findAllCommandsAdminBetween(Long idAdmin,Date start, Date end);
+    public CommandVo dashboardByUser(Long idUser);
 
     public List<CommandVo> deliveryChartByCurrentYear(Long id);
 
@@ -181,6 +185,10 @@ public interface CommandService {
     public List<Command> findCommandsNoBloquedOfValidator(Long validatorId);
 
     public Command switchCommandResolution(String commandReference);
+
+    public List<CommandVo> adminChartByCurrentYear( Long idAdmin);
+
+
 
 
 }

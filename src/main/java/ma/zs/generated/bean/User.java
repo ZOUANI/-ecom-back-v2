@@ -23,7 +23,7 @@ public class User {
 
      private Boolean enabled;
      private String password ;
-     private Boolean enabledNewCommand;
+     private Boolean enabledNewCommand = false;
      @JsonFormat(pattern="yyyy-MM-dd")
      @Temporal(TemporalType.DATE)
      private Date created ;

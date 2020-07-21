@@ -6,6 +6,7 @@ import java.util.List;
 import ma.zs.generated.ws.rest.provided.converter.OrderLineConverter;
 import ma.zs.generated.ws.rest.provided.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -276,16 +277,16 @@ public class CommandRest {
         return commandService.findStatisticsCommandsByStatus(status);
     }
 
-    @ApiOperation("dashboard Commands")
-    @GetMapping("/dashboard")
-    public CommandVo dashboardCommands() {
-        return commandService.dashboardCommands();
+    @ApiOperation("dashboard Commands by user")
+    @GetMapping("/dashboard/idUser/{idUser}")
+    public CommandVo dashboardCommands(@PathVariable Long idUser) {
+        return commandService.dashboardByUser(idUser);
     }
 
     @ApiOperation("fins statistics by current year")
-    @GetMapping("/statisticsOfYear")
-    public List<CommandVo> findStatisticsTotalCommandsByCurrentYear() {
-        return commandService.findStatisticsTotalCommandsByCurrentYear();
+    @GetMapping("/statisticsOfYear/idUser/{idUser}")
+    public List<CommandVo> findStatisticsTotalCommandsByCurrentYear(@PathVariable Long idUser) {
+        return commandService.findStatisticsTotalCommandsByCurrentYear(idUser);
     }
 
     @ApiOperation("statistics  total  command amount between 2 date")
