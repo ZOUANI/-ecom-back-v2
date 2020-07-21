@@ -234,7 +234,7 @@ public class CommandServiceImpl implements CommandService {
                 cl.setLastName(command.getClient().getLastName());
                 cl.setPhoneNumber(command.getClient().getPhoneNumber());
 
-                command.setClient(clientService.save(cl));
+                command.setClient(clientService.save(cl, null));
             } else
                 command.setClient(client);
         }

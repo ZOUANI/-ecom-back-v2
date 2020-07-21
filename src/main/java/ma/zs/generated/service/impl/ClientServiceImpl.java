@@ -66,7 +66,6 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
-
     @Override
     public Client findById(Long id) {
         if (id == null)
@@ -87,7 +86,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client save(Client client) {
+    public Client save(Client client, Long adminId) {
 
         if (client.getCity() != null) {
             City city = cityService.findByName(client.getCity().getName());
@@ -97,18 +96,18 @@ public class ClientServiceImpl implements ClientService {
                 client.setCity(city);
         }
 
-//	    Client savedClient = clientDao.save(client);
-//               if(ListUtil.isNotEmpty(client.getCommands())){
-//		  savedClient.setCommands(commandService.save(prepareCommands(savedClient,client.getCommands())));
-//		 }
-        return null;
+        Client savedClient = clientDao.save(client);
+        if (ListUtil.isNotEmpty(client.getCommands()) && adminId != null) {
+            savedClient.setCommands(commandService.save(adminId, prepareCommands(savedClient, client.getCommands())));
+        }
+        return savedClient;
     }
 
     @Override
     public List<Client> save(List<Client> clients) {
         List<Client> list = new ArrayList<Client>();
         for (Client client : clients) {
-            list.add(save(client));
+            // list.add(save(client));
         }
         return list;
     }
@@ -122,7 +121,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client update(Client client) {
-
 
         Client foundedClient = findById(client.getId());
         if (foundedClient == null)
@@ -144,7 +142,6 @@ public class ClientServiceImpl implements ClientService {
         clientDao.delete(foundedClient);
         return 1;
     }
-
 
     public List<Client> findByCriteria(ClientVo clientVo) {
         String query = "SELECT o FROM Client o where 1=1 ";
