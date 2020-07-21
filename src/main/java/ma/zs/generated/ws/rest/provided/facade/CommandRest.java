@@ -72,6 +72,9 @@ public class CommandRest {
     @ApiOperation("Updates the specified command")
     @PutMapping("/")
     public CommandVo update(@RequestBody CommandVo commandVo) {
+        System.out.println("ana f rest");
+        System.out.println(commandVo.getReference());
+        commandConverter.init(true);
         Command command = commandConverter.toItem(commandVo);
         command = commandService.update(command);
         return commandConverter.toVo(command);

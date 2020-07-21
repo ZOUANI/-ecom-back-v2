@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 
+import ma.zs.generated.dao.OrderLineDao;
 import ma.zs.generated.service.facade.*;
 import ma.zs.generated.util.DateUtil;
 import ma.zs.generated.util.ListUtil;
@@ -34,7 +35,8 @@ import ma.zs.generated.ws.rest.provided.vo.CommandVo;
 
 @Service
 public class CommandServiceImpl implements CommandService {
-
+    @Autowired
+    OrderLineDao orderLineDao;
     @Autowired
     private CommandDao commandDao;
     @Autowired
@@ -472,12 +474,32 @@ public class CommandServiceImpl implements CommandService {
 
     @Override
     public Command update(Command command) {
-
-        Command foundedCommand = findById(command.getId());
+        System.out.println(command.getCity().getName());
+        Command foundedCommand = findByReference(command.getReference());
         if (foundedCommand == null)
             return null;
+        else {
 
-        return commandDao.save(command);
+            foundedCommand.setRemarque(command.getRemarque());
+            foundedCommand.setTotal(command.getTotal());
+            foundedCommand.setAdress(command.getAdress());
+            LocalDate localDate = DateUtil.fromDate(command.getRegulationDate());
+            foundedCommand.setRegulationDate(DateUtil.toDate(localDate));
+
+            foundedCommand.setValidator(validatorService.findByCode(command.getValidator().getCode()));
+            foundedCommand.setDelivery(deliveryService.findByCode(command.getDelivery().getCode()));
+            foundedCommand.setClient(clientService.findById(command.getClient().getId()));
+            foundedCommand.setOrderStatus(orderStatusService.findByLabel(command.getOrderStatus().getLabel()));
+            foundedCommand.setCity(cityService.findByName(command.getCity().getName()));
+//            commandDao.save(command);
+            orderLinesService.deleteByCommandReference(command.getReference());
+            for (OrderLine orderLine : command.getOrderLines()) {
+                orderLine.setCommand(foundedCommand);
+                orderLinesService.save(null,orderLine);
+            }
+        }
+
+        return commandDao.save(foundedCommand);
 
     }
 
