@@ -19,6 +19,7 @@ import ma.zs.generated.util.ListUtil;
 import ma.zs.generated.util.NumberUtil;
 import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,10 +91,6 @@ public class CommandServiceImpl implements CommandService {
     //
     // }
 
-    @Override
-    public List<Command> findByDeliveryCode(String code) {
-        return commandDao.findByDeliveryCode(code);
-    }
 
     @Override
     @Transactional
@@ -227,23 +224,27 @@ public class CommandServiceImpl implements CommandService {
         if (foundedCommand != null)
             return null;
         if (command.getClient() != null) {
-            Client client = clientService.findByFirstNameAndLastName(command.getClient().getFirstName(),
-                    command.getClient().getLastName());
+            Client client = clientService.findByPhoneNumber(command.getClient().getPhoneNumber());
             System.out.println(command.getClient().getFirstName());
             if (client == null) {
                 Client cl = new Client();
                 cl.setFirstName(command.getClient().getFirstName());
                 cl.setLastName(command.getClient().getLastName());
                 cl.setPhoneNumber(command.getClient().getPhoneNumber());
+                if (command.getCity() != null && command.getCity().getId() != null) {
+                    City city = cityService.findById(command.getCity().getId());
+                    cl.setCity(city);
 
-                command.setClient(clientService.save(cl, null));
+                }
+
+                command.setClient(clientService.save(cl));
             } else
                 command.setClient(client);
         }
-        if (command.getDelivery().getId() == null) {
+        if (command.getDelivery() == null || command.getDelivery().getId() == null) {
             command.setDelivery(null);
         }
-        if (command.getValidator().getId() == null) {
+        if (command.getValidator() == null || command.getValidator().getId() == null) {
             command.setValidator(null);
         }
         LocalDate localDate = DateUtil.fromDate(command.getOrderDate());
@@ -258,6 +259,7 @@ public class CommandServiceImpl implements CommandService {
         Command savedCommand = commandDao.save(command);
         if (ListUtil.isNotEmpty(command.getOrderLines())) {
             calculTotal(savedCommand, command.getOrderLines());
+
             savedCommand.setOrderLines(
                     orderLinesService.save(adminId, prepareOrderLines(savedCommand, command.getOrderLines())));
         }
@@ -468,6 +470,8 @@ public class CommandServiceImpl implements CommandService {
     public List<OrderLine> prepareOrderLines(Command command, List<OrderLine> orderLines) {
         for (OrderLine orderLine : orderLines) {
             orderLine.setCommand(command);
+            Product product = productService.findByLabel(orderLine.getProduct().getLabel());
+            orderLine.setProduct(product);
         }
         return orderLines;
     }
@@ -636,11 +640,20 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public List<CommandVo> findStatisticsTotalCommandsByCurrentYear() {
+    public List<CommandVo> findStatisticsTotalCommandsByCurrentYear(Long idUser) {
         LocalDate localDate = DateUtil.fromDate(new Date());
         int year = localDate.getYear();
-        return commandDao.findStatisticsTotalCommandsByCurrentYear(year);
+        User user = userService.findById(idUser);
+        if (user.getAuthority().getAuthority().equalsIgnoreCase("Admin")) {
+            return adminChartByCurrentYear(idUser);
+        } else if (user.getAuthority().getAuthority().equalsIgnoreCase("Validator")) {
+            return validatorChartByCurrentYear(idUser);
+        } else if (user.getAuthority().getAuthority().equalsIgnoreCase("Delivery")) {
+            return deliveryChartByCurrentYear(idUser);
+        } else
+            return commandDao.findStatisticsTotalCommandsByCurrentYear(year);
     }
+
 
     @Override
     public CommandVo findStatisticsTotalCommandAmount(Date start, Date end) {
@@ -714,6 +727,77 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
+    public CommandVo adminDashboard(Long id) {
+        List<Command> commands = findByAdminId(id);
+        List<User> users = userService.findBySuperAdminId(id);
+        CommandVo commandVo = new CommandVo(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0),
+                (long) 0, (long) 0, (long) 0, new BigDecimal(0), (long) 0, (long) 0, new BigDecimal(0), (long) 0);
+        List<Command> commandsDays = findAllCommandsAdminBetween(id, new Date(), new Date());
+        for (Command commandDay : commandsDays) {
+            commandVo.setTotalCommandsSales(commandVo.getTotalCommandsSales().add(commandDay.getTotal()));
+
+            if (commandDay.getOrderStatus().getSuperOrderStatus().getCodeSuperStatus().contains("confirmed")) {
+                commandVo.setTotalConfirmedCurrentDay(
+                        commandVo.getTotalConfirmedCurrentDay().add(commandDay.getTotal()));
+            } else if (commandDay.getOrderStatus().getCode().equalsIgnoreCase("paid")) {
+                commandVo.setTotalClosedCurrentDay(commandVo.getTotalClosedCurrentDay().add(commandDay.getTotal()));
+            }
+
+        }
+        for (User user : users) {
+            if (user.getAuthority().getAuthority().equalsIgnoreCase("validator")) {
+                commandVo.setTotalValidator(commandVo.getTotalValidator() + 1);
+            } else if (user.getAuthority().getAuthority().equalsIgnoreCase("delivery")) {
+                commandVo.setTotalDelivery(commandVo.getTotalDelivery() + 1);
+            }
+        }
+        for (Command command1 : commands) {
+            commandVo.setTotalCommandsSales(commandVo.getTotalCommandsSales().add(command1.getTotal()));
+            if (command1.getOrderStatus().getSuperOrderStatus().getCodeSuperStatus().contains("confirmed")) {
+                commandVo.setConfirmedCommands(commandVo.getConfirmedCommands() + 1);
+                commandVo.setTotalConfirmedCommands(commandVo.getTotalConfirmedCommands().add(command1.getTotal()));
+            }
+            if (command1.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("notConfirmed")) {
+                commandVo.setProcessedCommand(commandVo.getProcessedCommand() + 1);
+            }
+            if ((command1.getOrderStatus().getCode().equalsIgnoreCase("notPaid"))) {
+                commandVo.setReturnedCommands(commandVo.getReturnedCommands() + 1);
+            }
+            if (command1.getOrderStatus().getSuperOrderStatus().getCode().equalsIgnoreCase("delivered")) {
+                commandVo.setClosedCommands(commandVo.getClosedCommands() + 1);
+            }
+            if (command1.getOrderStatus().getCode().equalsIgnoreCase("paid")) {
+                commandVo.setTotalClosedCommands(commandVo.getTotalClosedCommands().add(command1.getTotal()));
+            }
+
+
+        }
+        return commandVo;
+    }
+
+    @Override
+    public List<Command> findAllCommandsAdminBetween(Long idAdmin, Date start, Date end) {
+        return commandDao.findAllCommandsAdminBetween(idAdmin, start, end);
+    }
+
+    @Override
+    public CommandVo dashboardByUser(Long idUser) {
+        User user = userService.findById(idUser);
+        if (user.getAuthority().getAuthority().equalsIgnoreCase("Admin")) {
+            return adminDashboard(idUser);
+        } else if (user.getAuthority().getAuthority().equalsIgnoreCase("Validator")) {
+            return validatorDashboard(idUser);
+        } else if (user.getAuthority().getAuthority().equalsIgnoreCase("Delivery")) {
+            return deliveryDashboard(idUser);
+
+        } else {
+            return dashboardCommands();
+        }
+
+    }
+
+
+    @Override
     public List<CommandVo> validatorChartByCurrentYear(Long id) {
         LocalDate localDate = DateUtil.fromDate(new Date());
         int year = localDate.getYear();
@@ -743,7 +827,7 @@ public class CommandServiceImpl implements CommandService {
             if (command1.getOrderStatus().getCode().equalsIgnoreCase("paid")) {
                 commandVo.setTotalClosedCommands(commandVo.getTotalClosedCommands().add(command1.getTotal()));
             } else if ((command1.getOrderStatus().getCode().equalsIgnoreCase("notPaid"))) {
-                commandVo.setProcessedCommand(commandVo.getProcessedCommand() + 1);
+                commandVo.setReturnedCommands(commandVo.getReturnedCommands() + 1);
             }
 
         }
@@ -804,6 +888,13 @@ public class CommandServiceImpl implements CommandService {
         Command command = findByReference(commandReference);
         command.setCommentResolution(!command.getCommentResolution());
         return commandDao.save(command);
+    }
+
+    @Override
+    public List<CommandVo> adminChartByCurrentYear(Long idAdmin) {
+        LocalDate localDate = DateUtil.fromDate(new Date());
+        int year = localDate.getYear();
+        return commandDao.adminChartByCurrentYear(idAdmin, year);
     }
 
     private Boolean checkCommandAccessRights(Command c, Long validatorId) {

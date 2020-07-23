@@ -46,10 +46,9 @@ public interface ClientService {
      * save Client in database
      *
      * @param client - Client to be saved
-     * @param adminId - Admin Id to be attached with commands
      * @return the saved Client, If the Client can't be saved return null.
      */
-    Client save(Client client, Long adminId);
+    Client save(Client client);
 
     /**
      * save list Client in database

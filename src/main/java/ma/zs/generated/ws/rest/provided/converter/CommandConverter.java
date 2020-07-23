@@ -55,6 +55,8 @@ public class CommandConverter extends AbstractConverter<Command, CommandVo> {
                 item.setRemarque(vo.getRemarque());
             if (StringUtil.isNotEmpty(vo.getTotal()))
                 item.setTotal(NumberUtil.toBigDecimal(vo.getTotal()));
+            if (StringUtil.isNotEmpty(vo.getCommandShippingCost()))
+                item.setCommandShippingCost(NumberUtil.toBigDecimal(vo.getCommandShippingCost()));
             if (StringUtil.isNotEmpty(vo.getAdress()))
                 item.setAdress(vo.getAdress());
             if (StringUtil.isNotEmpty(vo.getOrderDate()))
@@ -69,8 +71,6 @@ public class CommandConverter extends AbstractConverter<Command, CommandVo> {
                 item.setValidator(userConverter.toItem(vo.getValidatorVo()));
             if (vo.getDeliveryVo() != null && this.delivery)
                 item.setDelivery(userConverter.toItem(vo.getDeliveryVo()));
-            if (vo.getDeliveryCostVo() != null && this.deliveryCost)
-                item.setDeliveryCost(deliveryCostConverter.toItem(vo.getDeliveryCostVo()));
             if (vo.getOrderStatusVo() != null && this.orderStatus)
                 item.setOrderStatus(orderStatusConverter.toItem(vo.getOrderStatusVo()));
             if (vo.getCityVo() != null && this.city)
@@ -117,6 +117,8 @@ public class CommandConverter extends AbstractConverter<Command, CommandVo> {
 
             if (item.getTotal() != null)
                 vo.setTotal(NumberUtil.toString(item.getTotal()));
+            if (item.getCommandShippingCost() != null)
+                vo.setCommandShippingCost(NumberUtil.toString(item.getCommandShippingCost()));
             if (StringUtil.isNotEmpty(item.getAdress()))
                 vo.setAdress(item.getAdress());
 
@@ -134,9 +136,6 @@ public class CommandConverter extends AbstractConverter<Command, CommandVo> {
             }
             if (item.getDelivery() != null && this.delivery) {
                 vo.setDeliveryVo(userConverter.toVo(item.getDelivery()));
-            }
-            if (item.getDeliveryCost() != null && this.deliveryCost) {
-                vo.setDeliveryCostVo(deliveryCostConverter.toVo(item.getDeliveryCost()));
             }
             if (item.getOrderStatus() != null && this.orderStatus) {
                 vo.setOrderStatusVo(orderStatusConverter.toVo(item.getOrderStatus()));

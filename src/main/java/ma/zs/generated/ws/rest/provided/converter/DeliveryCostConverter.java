@@ -50,11 +50,11 @@ public class DeliveryCostConverter extends AbstractConverter<DeliveryCost, Deliv
 
 			if (item.getId() != null)
 				vo.setId(NumberUtil.toString(item.getId()));
-			if (item.getShippingCost() != null)
-				vo.setShippingCost(NumberUtil.toString(item.getShippingCost()));
 			if (item.getCity() != null && this.city) {
 				vo.setCityVo(cityConverter.toVo(item.getCity()));
 			}
+			if (item.getShippingCost() != null)
+				vo.setShippingCost(NumberUtil.toString(item.getShippingCost()));
 			if (item.getDelivery() != null && this.delivery) {
 				vo.setDeliveryVo(userConverter.toVo(item.getDelivery()));
 			}

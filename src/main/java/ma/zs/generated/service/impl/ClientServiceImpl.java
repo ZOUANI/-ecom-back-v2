@@ -1,26 +1,23 @@
 package ma.zs.generated.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-
-import ma.zs.generated.util.ListUtil;
-import ma.zs.generated.util.SearchUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
-import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
-import ma.zs.generated.bean.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import ma.zs.generated.bean.City;
+import ma.zs.generated.bean.Client;
 import ma.zs.generated.bean.Command;
 import ma.zs.generated.dao.ClientDao;
+import ma.zs.generated.service.facade.CityService;
 import ma.zs.generated.service.facade.ClientService;
 import ma.zs.generated.service.facade.CommandService;
-import ma.zs.generated.service.facade.CityService;
-
+import ma.zs.generated.util.SearchUtil;
 import ma.zs.generated.ws.rest.provided.vo.ClientVo;
 
 @Service
@@ -86,7 +83,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client save(Client client, Long adminId) {
+    public Client save(Client client) {
 
         if (client.getCity() != null) {
             City city = cityService.findByName(client.getCity().getName());
@@ -96,18 +93,14 @@ public class ClientServiceImpl implements ClientService {
                 client.setCity(city);
         }
 
-        Client savedClient = clientDao.save(client);
-        if (ListUtil.isNotEmpty(client.getCommands()) && adminId != null) {
-            savedClient.setCommands(commandService.save(adminId, prepareCommands(savedClient, client.getCommands())));
-        }
-        return savedClient;
+        return clientDao.save(client);
     }
 
     @Override
     public List<Client> save(List<Client> clients) {
         List<Client> list = new ArrayList<Client>();
         for (Client client : clients) {
-            // list.add(save(client));
+            list.add(save(client));
         }
         return list;
     }

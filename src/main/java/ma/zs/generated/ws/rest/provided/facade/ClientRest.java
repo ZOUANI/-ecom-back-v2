@@ -32,10 +32,10 @@ public class ClientRest {
 	private ClientConverter clientConverter;
 
 	@ApiOperation("Saves the specified client")
-	@PostMapping("/adminId/{adminId}")
-	public ClientVo save(@RequestBody ClientVo clientVo, @PathVariable Long adminId) {
+	@PostMapping("/")
+	public ClientVo save(@RequestBody ClientVo clientVo) {
 		Client client = clientConverter.toItem(clientVo);
-		client = clientService.save(client, adminId);
+		client = clientService.save(client);
 		return clientConverter.toVo(client);
 	}
 
