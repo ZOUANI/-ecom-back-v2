@@ -1,26 +1,23 @@
 package ma.zs.generated.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-
-import ma.zs.generated.util.ListUtil;
-import ma.zs.generated.util.SearchUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
-import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
-import ma.zs.generated.bean.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import ma.zs.generated.bean.City;
+import ma.zs.generated.bean.Client;
 import ma.zs.generated.bean.Command;
 import ma.zs.generated.dao.ClientDao;
+import ma.zs.generated.service.facade.CityService;
 import ma.zs.generated.service.facade.ClientService;
 import ma.zs.generated.service.facade.CommandService;
-import ma.zs.generated.service.facade.CityService;
-
+import ma.zs.generated.util.SearchUtil;
 import ma.zs.generated.ws.rest.provided.vo.ClientVo;
 
 @Service
@@ -66,7 +63,6 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
-
     @Override
     public Client findById(Long id) {
         if (id == null)
@@ -97,11 +93,7 @@ public class ClientServiceImpl implements ClientService {
                 client.setCity(city);
         }
 
-//	    Client savedClient = clientDao.save(client);
-//               if(ListUtil.isNotEmpty(client.getCommands())){
-//		  savedClient.setCommands(commandService.save(prepareCommands(savedClient,client.getCommands())));
-//		 }
-        return null;
+        return clientDao.save(client);
     }
 
     @Override
@@ -123,7 +115,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client update(Client client) {
 
-
         Client foundedClient = findById(client.getId());
         if (foundedClient == null)
             return null;
@@ -144,7 +135,6 @@ public class ClientServiceImpl implements ClientService {
         clientDao.delete(foundedClient);
         return 1;
     }
-
 
     public List<Client> findByCriteria(ClientVo clientVo) {
         String query = "SELECT o FROM Client o where 1=1 ";

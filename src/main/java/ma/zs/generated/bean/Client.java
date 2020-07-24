@@ -3,11 +3,12 @@ package ma.zs.generated.bean;
 import javax.persistence.ManyToOne;
 import java.util.List;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import ma.zs.generated.bean.City;
 
 @Entity
 public class Client {
@@ -24,7 +25,7 @@ public class Client {
 
      @ManyToOne
 	private City city ;
-     @OneToMany(mappedBy = "client")
+     @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
      private List<Command> commands ;
 
      public Client(){

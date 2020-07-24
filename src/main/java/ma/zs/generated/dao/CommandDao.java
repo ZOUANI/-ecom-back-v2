@@ -26,8 +26,6 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        int deleteByDeliveryCode(String code);       
        List<Command> findByDeliveryId(Long id);
        int deleteByDeliveryId(Long id);
-       List<Command> findByDeliveryCostId(Long id);
-       int deleteByDeliveryCostId(Long id);
        List<Command> findByOrderStatusLabel(String label);
        int deleteByOrderStatusLabel(String label);       
        List<Command> findByOrderStatusId(Long id);
@@ -56,6 +54,9 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        @Query("SELECT c FROM Command c where c.orderDate BETWEEN  :start AND :end")
        public List<Command> findAllCommandsBetween(@Param("start") Date start, @Param("end") Date end);
 
+       @Query("SELECT c FROM Command c where c.admin.id = :idAdmin AND c.orderDate BETWEEN  :start AND :end  ")
+       public List<Command> findAllCommandsAdminBetween(@Param("idAdmin") Long idAdmin,@Param("start") Date start, @Param("end") Date end);
+
        @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.year = :year  group by c.month order by c.month")
        public List<CommandVo> findStatisticsTotalCommandsByCurrentYear(@Param("year") int year);
 
@@ -65,13 +66,16 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        @Query("SELECT u FROM User u where u.superAdmin.id = :id")
        public List<User> findDeliveryOfValidator(@Param("id") Long id);
 
-       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.validator.id = :id and c.year = :year and c.orderStatus.label = 'confirmed' group by c.month order by c.month")
+       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.validator.id = :id and c.year = :year and c.orderStatus.superOrderStatus.codeSuperStatus like '%confirmed%' group by c.month order by c.month")
        public List<CommandVo> validatorChartByCurrentYear(@Param("id") Long id, @Param("year") int year);
 
        public List<Command> findCommandByDeliveryId(Long id);
 
-       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.delivery.id = :id and c.year = :year and c.orderStatus.label = 'closed' group by c.month order by c.month")
+       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.delivery.id = :id and c.year = :year and c.orderStatus.superOrderStatus.code = 'delivered' group by c.month order by c.month")
        public List<CommandVo> deliveryChartByCurrentYear(@Param("id") Long id,@Param("year") int year);
+
+       @Query("SELECT NEW ma.zs.generated.ws.rest.provided.vo.CommandVo(c.month,COUNT(c.id),SUM(c.total)) FROM Command c where c.admin.id = :id and c.year = :year  group by c.month order by c.month")
+       public List<CommandVo> adminChartByCurrentYear(@Param("id") Long id,@Param("year") int year);
 
        public List<Command> findByAdminIdAndValidatorIsNull(Long adminId);
 

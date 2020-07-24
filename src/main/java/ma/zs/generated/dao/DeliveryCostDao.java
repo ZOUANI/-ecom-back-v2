@@ -20,5 +20,6 @@ public interface DeliveryCostDao extends JpaRepository<DeliveryCost,Long> {
        List<DeliveryCost> findByDeliveryId(Long id);
        int deleteByDeliveryId(Long id);
        List<DeliveryCost> findByCityIdAndDeliverySuperAdminId(Long cityId,Long adminId);
+	DeliveryCost findByDeliveryCodeAndCityName(String code, String name);
 
 }

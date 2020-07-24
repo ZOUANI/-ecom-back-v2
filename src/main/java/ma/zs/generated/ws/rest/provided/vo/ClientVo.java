@@ -19,8 +19,6 @@ public class ClientVo {
 
     private CityVo cityVo;
 
-    private List<CommandVo> commandsVo;
-
     private Long totalCommands;
     private BigDecimal sales;
 
@@ -104,14 +102,6 @@ public class ClientVo {
 
     public void setCityVo(CityVo cityVo) {
         this.cityVo = cityVo;
-    }
-
-    public List<CommandVo> getCommandsVo() {
-        return this.commandsVo;
-    }
-
-    public void setCommandsVo(List<CommandVo> commandsVo) {
-        this.commandsVo = commandsVo;
     }
 
 }
