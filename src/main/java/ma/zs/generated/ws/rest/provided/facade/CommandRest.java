@@ -354,6 +354,12 @@ public class CommandRest {
         return commandConverter.toVo(commandService.changeCommandOrderStatus(reference,status));
     }
 
+    @GetMapping("/commands/idUser/{id}")
+    public List<CommandVo> findCommandsByIdUser(@PathVariable Long id) {
+        initCommandConverter();
+        return commandConverter.toVo(commandService.findCommandsByIdUser(id));
+    }
+
 
     public void setCommandConverter(CommandConverter commandConverter) {
         this.commandConverter = commandConverter;

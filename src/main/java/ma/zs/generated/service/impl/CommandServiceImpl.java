@@ -83,6 +83,8 @@ public class CommandServiceImpl implements CommandService {
         return commandDao.findByAdminId(id);
 
     }
+
+
     //
     // @Override
     // @Transactional
@@ -916,4 +918,17 @@ public class CommandServiceImpl implements CommandService {
                 .filter(ca -> ca.getValidator().getId().equals(validatorId)).findFirst().orElse(null) != null;
     }
 
+    @Override
+    public List<Command> findCommandsByIdUser(Long id) {
+        User user = userService.findById(id);
+        if (user.getAuthority().getAuthority().equalsIgnoreCase("Admin")) {
+            return findByAdminId(id);
+        } else if (user.getAuthority().getAuthority().equalsIgnoreCase("Validator")) {
+            return findCommandsNoBloquedOfValidator(id);
+        } else if (user.getAuthority().getAuthority().equalsIgnoreCase("Delivery")) {
+            return findByDeliveryId(id);
+        }else{
+            return findAll();
+        }
+    }
 }

@@ -1,90 +1,103 @@
 package ma.zs.generated.service.facade;
 
 import java.util.List;
+import java.util.Set;
+
 import ma.zs.generated.bean.OrderStatus;
 import ma.zs.generated.ws.rest.provided.vo.OrderStatusVo;
 
 public interface OrderStatusService {
 
-        /**
-
-     * find all OrderStatus in database 
+    /**
+     * find all OrderStatus in database
+     *
      * @return List<OrderStatus> , If database is empty return  null.
      */
-	List<OrderStatus> findAll();
-	   
-	/**
+    List<OrderStatus> findAll();
 
+    /**
      * find OrderStatus from database by label (reference)
-     * @param label - reference of OrderStatus 
+     *
+     * @param label - reference of OrderStatus
      * @return the founded OrderStatus , If no OrderStatus were
-     *         found in database return  null.
+     * found in database return  null.
      */
-	OrderStatus findByLabel(String label);
+    OrderStatus findByLabel(String label);
 
     /**
      * find OrderStatus from database by id (id)
-     * @param id - id of OrderStatus 
+     *
+     * @param id - id of OrderStatus
      * @return the founded  OrderStatus , If no OrderStatus were
-     *         found in database return  null.
+     * found in database return  null.
      */
-	OrderStatus findById(Long id);
-     
-     /**
-     * delete OrderStatus from database
-     * @param id - id of OrderStatus to be deleted
-     * 
-     */
-	void deleteById(Long id);
+    OrderStatus findById(Long id);
 
-	List<OrderStatus> findBySuperOrderStatusLabel(String label);
-    int deleteBySuperOrderStatusLabel(String label);       
-			
+    /**
+     * delete OrderStatus from database
+     *
+     * @param id - id of OrderStatus to be deleted
+     */
+    void deleteById(Long id);
+
+    List<OrderStatus> findBySuperOrderStatusLabel(String label);
+
+    int deleteBySuperOrderStatusLabel(String label);
+
     List<OrderStatus> findBySuperOrderStatusId(Long id);
+
     int deleteBySuperOrderStatusId(Long id);
-			 
+
     /**
      * save OrderStatus in database
-     * @param orderStatus - OrderStatus to be saved 
+     *
+     * @param orderStatus - OrderStatus to be saved
      * @return the saved OrderStatus, If the OrderStatus can't be saved return null.
      */
-	OrderStatus save(OrderStatus orderStatus);
+    OrderStatus save(OrderStatus orderStatus);
 
-	/**
+    /**
      * save list OrderStatus in database
-     * @param orderStatuss - list of OrderStatus to be saved 
+     *
+     * @param orderStatuss - list of OrderStatus to be saved
      * @return the saved OrderStatus list
      */
-	List<OrderStatus> save(List<OrderStatus> orderStatuss);
-    
-     /**
+    List<OrderStatus> save(List<OrderStatus> orderStatuss);
+
+    /**
      * update OrderStatus in database
+     *
      * @param orderStatus - OrderStatus to be updated
      * @return the updated OrderStatus, If the OrderStatus can't be updated return null.
      */
     OrderStatus update(OrderStatus orderStatus);
-    
-       /**
+
+    /**
      * delete OrderStatus from database
+     *
      * @param orderStatus - OrderStatus to be deleted
      * @return 1 if OrderStatus deleted successfully, If the OrderStatus can't be deleted return negative int
      */
-	int delete(OrderStatus orderStatus);
+    int delete(OrderStatus orderStatus);
 
 
-    
-        /**
+    /**
      * delete OrderStatus from database by label (reference)
-     * 
+     *
      * @param label - reference of OrderStatus to be deleted
      * @return 1 if OrderStatus deleted successfully
      */
-	int deleteByLabel(String label);
+    int deleteByLabel(String label);
 
-     
-	/**
+
+    /**
      * search for OrderStatus in by some criteria
-     * @return the searhed list OrderStatus 
+     *
+     * @return the searhed list OrderStatus
      */
-	List<OrderStatus> findByCriteria( OrderStatusVo orderStatusVo);
+    List<OrderStatus> findByCriteria(OrderStatusVo orderStatusVo);
+
+    public List<OrderStatus> findByCodeIn(Set<String> codes);
+
+    public List<OrderStatus> statusForDelivery();
 }

@@ -2,6 +2,7 @@ package ma.zs.generated.service.facade;
 
 import ma.zs.generated.bean.Command;
 import ma.zs.generated.bean.OrderLine;
+import ma.zs.generated.bean.OrderStatus;
 import ma.zs.generated.bean.User;
 import ma.zs.generated.ws.rest.provided.vo.CommandVo;
 import org.springframework.data.repository.query.Param;
@@ -42,7 +43,6 @@ public interface CommandService {
 
     // int deleteByAdminCode(String code);
 
-    List<Command> findByAdminId(Long id);
 
     // int deleteByAdminId(Long id);
 
@@ -161,7 +161,6 @@ public interface CommandService {
 
     public List<CommandVo> validatorChartByCurrentYear(Long id);
 
-    public List<Command> findCommandByDeliveryId(Long id);
 
     public CommandVo deliveryDashboard(Long id);
     public CommandVo validatorDashboard(Long id);
@@ -183,6 +182,12 @@ public interface CommandService {
     public Command assignment(Long commandId, Long validatorId, Long deliveryId);
 
     public List<Command> findCommandsNoBloquedOfValidator(Long validatorId);
+    public List<Command> findCommandByDeliveryId(Long id);
+    List<Command> findByAdminId(Long id);
+    List<Command> findCommandsByIdUser(Long id);
+
+
+
 
     public Command switchCommandResolution(String commandReference);
 

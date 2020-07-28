@@ -88,7 +88,12 @@ public class OrderStatusRest {
 	public List<OrderStatusVo> findByCriteria(@RequestBody OrderStatusVo orderStatusVo){
 		return orderStatusConverter.toVo(orderStatusService.findByCriteria(orderStatusVo));
 	}
-	public OrderStatusConverter getOrderStatusConverter(){
+
+	@GetMapping("/statusDelivery")
+	public List<OrderStatusVo> statusForDelivery() {
+		return orderStatusConverter.toVo(orderStatusService.statusForDelivery());
+	}
+		public OrderStatusConverter getOrderStatusConverter(){
 		return orderStatusConverter;
 	}
 

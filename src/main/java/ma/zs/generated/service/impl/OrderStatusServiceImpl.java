@@ -1,7 +1,6 @@
 package ma.zs.generated.service.impl;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 import ma.zs.generated.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,6 +150,17 @@ public class OrderStatusServiceImpl implements OrderStatusService {
    
 	 return entityManager.createQuery(query).getResultList();
 	}
-	
- 
+
+	@Override
+	public List<OrderStatus> findByCodeIn(Set<String> codes) {
+		return orderStatusDao.findByCodeIn(codes);
+	}
+
+	@Override
+	public List<OrderStatus> statusForDelivery() {
+		Set<String> codes =  new HashSet<>(Arrays.asList("paid", "notPaid"));
+		return findByCodeIn(codes);
+	}
+
+
 }
