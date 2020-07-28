@@ -309,30 +309,30 @@ public class CommandServiceImpl implements CommandService {
         Role validatorRole = new Role();
 
         command.setOrderDate(DateUtil.parse(line[0].trim()));
-        command.setRegulationDate(DateUtil.parse(line[1].trim()));
+        command.setRegulationDate(DateUtil.parse(line[9].trim()));
 
-        orderStatus.setLabel(line[2].trim());
+        orderStatus.setLabel(line[10].trim());
         command.setOrderStatus(orderStatus);
 
-        command.setReference(line[3].trim());
+        command.setReference(line[1].trim());
 
-        String[] clientFullName = line[4].trim().replaceAll("\\s{2,}", " ").split(" ");
+        String[] clientFullName = line[2].trim().replaceAll("\\s{2,}", " ").split(" ");
         client.setLastName(clientFullName[0]);
         client.setFirstName(clientFullName[1]);
-        client.setPhoneNumber(line[5].trim());
+        client.setPhoneNumber(line[3].trim());
         client.setCity(city);
         command.setClient(client);
 
-        city.setName(line[6].trim());
+        city.setName(line[5].trim());
         command.setCity(city);
 
-        command.setAdress(line[7].trim());
+        command.setAdress(line[4].trim());
 
-        p.setLabel(line[9].trim());
+        p.setLabel(line[7].trim());
         System.out.println(p.getLabel());
         orderLine.setProduct(p);
-        orderLine.setQte(NumberUtil.toBigDecimal(line[10].trim()));
-        orderLine.setPrice(NumberUtil.toBigDecimal(line[8].trim()));
+        orderLine.setQte(NumberUtil.toBigDecimal(line[8].trim()));
+        orderLine.setPrice(NumberUtil.toBigDecimal(line[6].trim()));
         command.setOrderLines(Stream.of(orderLine).collect(Collectors.toList()));
         calculTotal(command, command.getOrderLines());
 
