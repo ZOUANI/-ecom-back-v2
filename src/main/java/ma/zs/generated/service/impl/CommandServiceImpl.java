@@ -912,6 +912,11 @@ public class CommandServiceImpl implements CommandService {
         }
     }
 
+    @Override
+    public List<Command> findByOrderDateBetweenAndDeliveryNotNull(Date start, Date end) {
+        return commandDao.findByOrderDateBetweenAndDeliveryNotNull(start,end);
+    }
+
     private Boolean checkCommandAccessRights(Command c, Long validatorId) {
         c.setCommandeAccesses(commandeAccessService.findByCommandId(c.getId()));
         return c.getCommandeAccesses() == null || c.getCommandeAccesses().isEmpty() || c.getCommandeAccesses().stream()

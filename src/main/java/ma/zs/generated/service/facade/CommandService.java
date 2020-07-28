@@ -195,6 +195,9 @@ public interface CommandService {
 
     public Command changeCommandOrderStatus(String commandReference , String orderStatusLabel);
 
+    public List<Command> findByOrderDateBetweenAndDeliveryNotNull( Date start, Date end);
+
+
 
 
 

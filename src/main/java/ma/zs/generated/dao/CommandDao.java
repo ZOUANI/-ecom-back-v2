@@ -54,6 +54,7 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        @Query("SELECT c FROM Command c where c.orderDate BETWEEN  :start AND :end")
        public List<Command> findAllCommandsBetween(@Param("start") Date start, @Param("end") Date end);
 
+
        @Query("SELECT c FROM Command c where c.admin.id = :idAdmin AND c.orderDate BETWEEN  :start AND :end  ")
        public List<Command> findAllCommandsAdminBetween(@Param("idAdmin") Long idAdmin,@Param("start") Date start, @Param("end") Date end);
 
@@ -95,4 +96,7 @@ public interface CommandDao extends JpaRepository<Command,Long> {
        @Query("SELECT c FROM Command c JOIN c.commandeAccesses ca WHERE  c.admin.id = :adminId AND c.validator IS NULL AND c.delivery IS NULL AND ((c.commandeAccesses IS EMPTY) OR (:validatorId IN (ca.validator.id)))")
        public List<Command> findByAdminIdAndValidatorId(@Param("adminId") Long adminId,
                      @Param("validatorId") Long validatorId);
+
+       public List<Command> findByOrderDateBetweenAndDeliveryNotNull( Date start, Date end);
+
 }

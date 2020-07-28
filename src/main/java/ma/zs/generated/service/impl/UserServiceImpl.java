@@ -299,7 +299,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserVo> findStatisticsDelivery(Date start, Date end) {
 		System.out.println(start);
 		System.out.println(end);
-		List<Command> commands = commandService.findAllCommandsBetween(start, end);
+		List<Command> commands = commandService.findByOrderDateBetweenAndDeliveryNotNull(start, end);
 		if (ListUtil.isEmpty(commands)) {
 			return null;
 		}
