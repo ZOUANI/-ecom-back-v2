@@ -188,6 +188,8 @@ public interface CommandService {
 
     public List<CommandVo> adminChartByCurrentYear( Long idAdmin);
 
+    public Command changeCommandOrderStatus(String commandReference , String orderStatusLabel);
+
 
 
 

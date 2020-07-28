@@ -73,7 +73,6 @@ public class CommandRest {
     @ApiOperation("Updates the specified command")
     @PutMapping("/")
     public CommandVo update(@RequestBody CommandVo commandVo) {
-        System.out.println("ana f rest");
         System.out.println(commandVo.getReference());
         commandConverter.init(true);
         Command command = commandConverter.toItem(commandVo);
@@ -348,6 +347,11 @@ public class CommandRest {
     @PutMapping("/switchResolution/command/{reference}")
     public CommandVo switchResolution(@PathVariable String reference) {
         return commandConverter.toVo(commandService.switchCommandResolution(reference));
+    }
+
+    @PutMapping("/changeStatus/command/{reference}/status/{status}")
+    public CommandVo changeCommandOrderStatus(@PathVariable String reference,@PathVariable String status) {
+        return commandConverter.toVo(commandService.changeCommandOrderStatus(reference,status));
     }
 
 

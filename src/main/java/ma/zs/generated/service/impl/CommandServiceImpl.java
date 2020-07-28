@@ -897,6 +897,19 @@ public class CommandServiceImpl implements CommandService {
         return commandDao.adminChartByCurrentYear(idAdmin, year);
     }
 
+    @Override
+    public Command changeCommandOrderStatus(String commandReference, String orderStatusLabel) {
+        Command foundedCommand = findByReference(commandReference);
+        OrderStatus foundedOrderStatus = orderStatusService.findByLabel(orderStatusLabel);
+
+        if (foundedCommand == null ||foundedOrderStatus == null)
+            return null;
+        else{
+            foundedCommand.setOrderStatus(foundedOrderStatus);
+            return commandDao.save(foundedCommand);
+        }
+    }
+
     private Boolean checkCommandAccessRights(Command c, Long validatorId) {
         c.setCommandeAccesses(commandeAccessService.findByCommandId(c.getId()));
         return c.getCommandeAccesses() == null || c.getCommandeAccesses().isEmpty() || c.getCommandeAccesses().stream()
